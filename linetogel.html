@@ -1,0 +1,2133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LINE TOGEL Generator</title>
+
+<link rel="icon" type="image/x-icon" id="favicon" href="https://linetogel73.com/assets/img/ei/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary:       #CE4FFF;
+    --primary-light: #E08CFF;
+    --primary-dark:  #8F1FD0;
+    --bg-deep:       #130020;
+    --bg-main:       #1c0030;
+    --bg-surface:    #2a0547;
+    --text-color:    #f3e2ff;
+    --marquee-color: #CE4FFF;
+    --glow-alpha:    rgba(206,79,255,0.45);
+    --glow-soft:     rgba(206,79,255,0.22);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: linear-gradient(135deg,rgba(19,0,32,0.55),rgba(28,0,48,0.62)),url("https://cdn.areabermain.club/assets/cdn/az6/2026/01/08/20260108/0e9b0ec9a88ad88a5935bc5802bc41a5/linetogel-background-07januari2026.jpg") no-repeat;
+    background-size:cover; background-position:center; background-attachment:fixed;
+    color:#ffffff; min-height:100vh; transition:background 0.6s ease;
+}
+
+
+
+/* ══ HAMBURGER BUTTON ══ */
+#hamburgerBtn {
+    position:fixed; top:20px; left:20px; z-index:9000;
+    width:52px; height:52px;
+    background:linear-gradient(135deg,rgba(26,26,46,0.95),rgba(10,10,20,0.95));
+    border:2px solid var(--primary); border-radius:14px;
+    cursor:pointer; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:6px;
+    box-shadow:0 0 20px var(--glow-alpha); transition:all 0.3s ease; padding:0;
+}
+#hamburgerBtn:hover { transform:scale(1.08); box-shadow:0 0 35px var(--glow-alpha); }
+#hamburgerBtn .bar { width:24px; height:2.5px; background:var(--primary); border-radius:2px; transition:all 0.3s ease; box-shadow:0 0 6px var(--primary); }
+#hamburgerBtn.open .bar:nth-child(1) { transform:translateY(8.5px) rotate(45deg); }
+#hamburgerBtn.open .bar:nth-child(2) { opacity:0; transform:scaleX(0); }
+#hamburgerBtn.open .bar:nth-child(3) { transform:translateY(-8.5px) rotate(-45deg); }
+
+#siteMenuOverlay {
+    display:none; position:fixed; inset:0; z-index:8000;
+    background:rgba(0,0,0,0.6); backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+}
+#siteMenuOverlay.visible { display:block; }
+
+#siteMenuDrawer {
+    position:fixed; top:0; left:-340px; width:320px; height:100vh; z-index:8500;
+    background:linear-gradient(180deg,#0a0a14 0%,#060610 100%);
+    border-right:2px solid var(--primary);
+    box-shadow:4px 0 60px rgba(0,0,0,0.8),4px 0 20px var(--glow-soft);
+    transition:left 0.38s cubic-bezier(0.4,0,0.2,1);
+    display:flex; flex-direction:column; overflow:hidden;
+}
+#siteMenuDrawer.open { left:0; }
+
+.drawer-header {
+    padding:28px 24px 20px;
+    border-bottom:1px solid rgba(255,215,0,0.15);
+    background:linear-gradient(180deg,rgba(26,26,46,0.8),transparent);
+    display:flex; align-items:center; justify-content:space-between;
+}
+.drawer-title { font-family:'Orbitron',sans-serif; font-size:13px; font-weight:900; color:var(--primary); letter-spacing:3px; text-transform:uppercase; text-shadow:0 0 12px var(--primary); }
+.drawer-close { width:34px; height:34px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:8px; cursor:pointer; color:#fff; font-size:16px; display:flex; align-items:center; justify-content:center; transition:all 0.2s; }
+.drawer-close:hover { background:rgba(255,50,50,0.2); border-color:#ff4444; color:#ff4444; }
+.drawer-subtitle { padding:12px 24px 0; font-size:10px; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; font-weight:700; }
+.drawer-sites { flex:1; padding:14px 16px; display:flex; flex-direction:column; gap:10px; overflow-y:auto; }
+
+.site-option {
+    display:flex; align-items:center; gap:16px; padding:16px 18px;
+    border-radius:14px; cursor:pointer;
+    border:2px solid rgba(255,255,255,0.07);
+    background:rgba(255,255,255,0.03);
+    transition:all 0.28s ease; position:relative; overflow:hidden;
+}
+.site-option::before { content:''; position:absolute; inset:0; background:var(--opt-color); opacity:0; transition:opacity 0.28s; }
+.site-option:hover::before { opacity:0.07; }
+.site-option:hover { border-color:var(--opt-color); transform:translateX(4px); box-shadow:0 0 20px var(--opt-glow); }
+.site-option.active { border-color:var(--opt-color); background:var(--opt-bg); box-shadow:0 0 25px var(--opt-glow),inset 0 0 30px var(--opt-inner); }
+.site-option.active::before { opacity:0; }
+.site-option-logo { width:60px; height:44px; object-fit:contain; flex-shrink:0; filter:drop-shadow(0 0 6px var(--opt-color)); transition:all 0.3s; }
+.site-option.active .site-option-logo { filter:drop-shadow(0 0 12px var(--opt-color)); transform:scale(1.05); }
+.site-option-info { flex:1; min-width:0; }
+.site-option-name { font-family:'Orbitron',sans-serif; font-size:14px; font-weight:900; color:var(--opt-color); letter-spacing:1.5px; text-shadow:0 0 10px var(--opt-color); line-height:1.2; }
+.site-option-sub { font-size:10px; color:rgba(255,255,255,0.45); letter-spacing:1px; margin-top:4px; font-weight:600; }
+.site-option-badge { width:8px; height:8px; border-radius:50%; background:var(--opt-color); box-shadow:0 0 8px var(--opt-color); flex-shrink:0; opacity:0; transition:opacity 0.3s; }
+.site-option.active .site-option-badge { opacity:1; }
+
+.site-option.opt-ibc138    { --opt-color:#FF6600; --opt-glow:rgba(255,102,0,0.40);  --opt-bg:rgba(255,102,0,0.08);  --opt-inner:rgba(255,102,0,0.05); }
+.site-option.opt-masterbet { --opt-color:#C9A84C; --opt-glow:rgba(201,168,76,0.35); --opt-bg:rgba(201,168,76,0.07); --opt-inner:rgba(201,168,76,0.04); }
+
+.drawer-footer { padding:16px 24px; border-top:1px solid rgba(255,255,255,0.07); text-align:center; font-size:10px; color:rgba(255,255,255,0.2); letter-spacing:1.5px; text-transform:uppercase; }
+
+#currentSiteBadge {
+    position:fixed; top:20px; left:84px; z-index:8900;
+    display:flex; align-items:center; gap:10px;
+    background:linear-gradient(135deg,rgba(26,26,46,0.95),rgba(10,10,20,0.95));
+    border:2px solid var(--primary); border-radius:12px;
+    padding:8px 16px 8px 10px;
+    box-shadow:0 0 20px var(--glow-alpha); transition:all 0.4s ease; cursor:pointer;
+}
+#currentSiteBadge:hover { transform:scale(1.03); box-shadow:0 0 30px var(--glow-alpha); }
+#badgeLogo { height:28px; width:auto; max-width:80px; object-fit:contain; filter:drop-shadow(0 0 6px var(--primary)); }
+#badgeName { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:900; color:var(--primary); letter-spacing:1.5px; text-shadow:0 0 10px var(--primary); white-space:nowrap; }
+
+/* ══ LAYOUT ══ */
+.container { max-width:1800px; margin:0 auto; padding:20px; }
+
+.header { text-align:center; padding:30px 20px; margin-bottom:30px; background:linear-gradient(135deg,rgba(26,26,46,0.7),rgba(21,21,32,0.9)); border-radius:20px; border:3px solid var(--primary); box-shadow:0 0 40px var(--glow-alpha); transition:all 0.5s; }
+.header img.logo { max-width:300px; filter:drop-shadow(0 0 25px var(--primary)); transition:all 0.5s; }
+.header h1 { font-family:'Orbitron',sans-serif; font-size:42px; font-weight:900; color:var(--primary); margin:15px 0 10px; text-shadow:0 0 20px var(--primary); letter-spacing:3px; transition:all 0.5s; }
+.header p { font-size:16px; color:#ffffff; letter-spacing:1px; }
+
+.auto-date { background:linear-gradient(135deg,rgba(26,26,46,0.7),rgba(21,21,32,0.9)); border:3px solid var(--primary); border-radius:15px; padding:20px; margin-bottom:25px; text-align:center; box-shadow:0 0 30px var(--glow-alpha); transition:all 0.5s; }
+.auto-date strong { display:block; color:var(--primary); font-size:14px; margin-bottom:10px; text-transform:uppercase; letter-spacing:2px; font-weight:900; }
+.auto-date .date-display { font-family:'Orbitron',sans-serif; color:var(--primary); font-size:28px; font-weight:900; text-shadow:0 0 20px var(--primary); }
+
+.color-panel { background:linear-gradient(135deg,rgba(26,26,46,0.7),rgba(21,21,32,0.9)); border:2px solid rgba(255,215,0,0.5); border-radius:15px; padding:25px; margin-bottom:25px; box-shadow:0 0 25px var(--glow-soft); transition:all 0.5s; }
+.color-panel h3 { font-family:'Orbitron',sans-serif; color:var(--primary); font-size:18px; margin-bottom:20px; display:flex; align-items:center; gap:10px; text-transform:uppercase; letter-spacing:2px; font-weight:900; }
+.color-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:20px; margin-bottom:20px; }
+.color-item { display:flex; flex-direction:column; gap:10px; }
+.color-item label { font-size:12px; color:var(--primary); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; }
+.color-input-group { display:flex; gap:12px; align-items:center; }
+.color-input-group input[type="color"] { width:55px; height:45px; border:2px solid rgba(255,215,0,0.4); border-radius:10px; background:var(--bg-surface); cursor:pointer; transition:all 0.3s; }
+.color-input-group input[type="color"]:hover { border-color:var(--primary); box-shadow:0 0 20px var(--primary); transform:scale(1.05); }
+.color-input-group input[type="text"] { flex:1; padding:12px 16px; background:rgba(10,10,15,0.9); border:2px solid rgba(255,215,0,0.3); border-radius:10px; color:var(--primary); font-family:'Courier New',monospace; font-size:13px; font-weight:700; letter-spacing:1px; transition:all 0.3s; }
+.color-input-group input[type="text"]:focus { outline:none; border-color:var(--primary); box-shadow:0 0 15px var(--primary); }
+.btn-reset-colors { width:100%; padding:15px 30px; background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(212,175,55,0.2)); border:2px solid var(--primary); border-radius:12px; color:var(--primary); font-family:'Orbitron',sans-serif; font-weight:700; font-size:14px; cursor:pointer; transition:all 0.3s; text-transform:uppercase; letter-spacing:2px; }
+.btn-reset-colors:hover { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#000; box-shadow:0 0 30px var(--primary); transform:translateY(-2px); }
+
+.main-layout { display:grid; grid-template-columns:3fr 7fr; gap:25px; align-items:start; min-height:0; }
+.left-column { min-width:0; }
+.right-column { min-width:0; }
+.section { background:linear-gradient(135deg,rgba(26,26,46,0.7),rgba(21,21,32,0.9)); border:2px solid rgba(255,215,0,0.5); border-radius:15px; padding:20px; margin-bottom:25px; box-shadow:0 0 25px var(--glow-soft); transition:all 0.5s; }
+.section h2 { font-family:'Orbitron',sans-serif; color:var(--primary); font-size:clamp(13px,1.4vw,20px); margin-bottom:20px; text-transform:uppercase; letter-spacing:1.5px; font-weight:900; transition:color 0.5s; }
+.stats-bar { display:flex; gap:10px; margin-bottom:20px; padding:12px 10px; background:rgba(255,215,0,0.1); border-radius:10px; border:1px solid rgba(255,215,0,0.3); }
+.stat-item { flex:1; text-align:center; min-width:0; }
+.stat-label { font-size:10px; color:#ffffff; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
+.stat-value { font-family:'Orbitron',sans-serif; font-size:clamp(14px,1.5vw,24px); font-weight:700; color:var(--primary); text-shadow:0 0 10px var(--primary); }
+.fetch-indicator { display:none; align-items:center; gap:8px; font-size:12px; color:var(--primary); font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; }
+.fetch-indicator.active { display:flex; }
+.spinner { display:inline-block; width:14px; height:14px; border:2px solid rgba(255,215,0,0.3); border-top-color:var(--primary); border-radius:50%; animation:spin 0.6s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+textarea { width:100%; min-width:0; min-height:280px; padding:15px; background:rgba(10,10,15,0.9); border:2px solid rgba(255,215,0,0.4); border-radius:12px; color:#ffffff; font-family:'Courier New',monospace; font-size:12px; resize:vertical; transition:all 0.3s; box-sizing:border-box; }
+textarea:focus { outline:none; border-color:var(--primary); box-shadow:0 0 20px var(--primary); }
+textarea::placeholder { color:rgba(255,255,255,0.4); }
+.output-code { background:rgba(10,10,15,0.9); border:2px solid rgba(255,215,0,0.4); border-radius:12px; padding:15px; min-height:280px; max-height:500px; overflow-x:hidden; overflow-y:auto; font-family:'Courier New',monospace; font-size:11px; white-space:pre-wrap; word-break:break-all; color:#00ff88; width:100%; min-width:0; box-sizing:border-box; }
+.output-code::-webkit-scrollbar { width:10px; }
+.output-code::-webkit-scrollbar-track { background:rgba(255,215,0,0.05); border-radius:5px; }
+.output-code::-webkit-scrollbar-thumb { background:var(--primary); border-radius:5px; }
+.button-group { display:flex; gap:15px; margin-top:20px; }
+button { flex:1; padding:15px 25px; border:none; border-radius:12px; font-family:'Orbitron',sans-serif; font-weight:700; font-size:14px; cursor:pointer; transition:all 0.3s; text-transform:uppercase; letter-spacing:2px; }
+.btn-copy { background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#000; border:2px solid var(--primary); }
+.btn-copy:hover { box-shadow:0 0 30px var(--primary); transform:translateY(-2px); }
+.btn-clear { background:rgba(255,255,255,0.1); color:#ffffff; border:2px solid rgba(255,255,255,0.3); }
+.btn-clear:hover { background:rgba(255,255,255,0.2); border-color:#ffffff; transform:translateY(-2px); }
+
+.section-header-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+.section-header-row h2 { margin-bottom:0; flex-shrink:0; }
+
+.btn-prediksi-link { display:inline-flex; align-items:center; gap:5px; padding:7px 10px; background:linear-gradient(135deg,var(--primary),var(--primary-dark)); color:#000; border:2px solid var(--primary); border-radius:8px; font-family:'Orbitron',sans-serif; font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:1px; text-decoration:none; cursor:pointer; transition:all 0.3s; box-shadow:0 0 12px var(--glow-soft); white-space:nowrap; flex-shrink:0; }
+.btn-prediksi-link:hover { box-shadow:0 0 20px var(--primary); transform:translateY(-2px); }
+.btn-prediksi-link:active { transform:translateY(0); }
+
+/* ── AUTO FETCH PANEL ─────────────────────────────── */
+.fetch-panel{background:linear-gradient(135deg,rgba(26,26,46,0.7),rgba(21,21,32,0.9));border:2px solid rgba(255,215,0,0.5);border-radius:15px;padding:22px 25px 20px;margin-bottom:25px;box-shadow:0 0 25px var(--glow-soft);transition:all 0.5s ease;}
+.fetch-panel-title{font-family:'Orbitron',sans-serif;color:var(--primary);font-size:16px;font-weight:900;margin-bottom:18px;display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:2px;}
+.new-data-badge{display:none;background:#22c55e;color:#000;font-size:10px;font-weight:900;padding:2px 8px;border-radius:999px;margin-left:6px;}
+.new-data-badge.show{display:inline-block;animation:badgepop .4s ease;}
+@keyframes badgepop{from{transform:scale(0)}to{transform:scale(1)}}
+.fetch-url-row{display:flex;gap:10px;margin-bottom:14px;}
+.fetch-url-row input{flex:1;padding:10px 14px;background:rgba(10,10,15,0.9);border:2px solid rgba(255,215,0,0.3);border-radius:10px;color:#fff;font-family:'Rajdhani',sans-serif;font-size:13px;transition:all .3s;outline:none;}
+.fetch-url-row input:focus{border-color:var(--primary);box-shadow:0 0 12px var(--glow-soft);}
+.btn-fetch{display:flex;align-items:center;gap:6px;padding:10px 18px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#000;font-family:'Orbitron',sans-serif;font-weight:900;font-size:12px;cursor:pointer;letter-spacing:1px;white-space:nowrap;transition:all .3s;text-transform:uppercase;}
+.btn-fetch:hover{box-shadow:0 0 22px var(--primary);transform:translateY(-1px);}
+.btn-fetch:disabled{opacity:.6;pointer-events:none;}
+.fetch-status-bar{background:rgba(10,10,15,0.9);border:2px solid rgba(255,215,0,0.15);border-radius:11px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:13px;}
+.fs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;transition:background .3s;}
+.fs-dot.idle{background:#6b7280;}.fs-dot.loading{background:#f59e0b;animation:fsdot .8s infinite;}.fs-dot.ok{background:#22c55e;}.fs-dot.error{background:#ef4444;}
+@keyframes fsdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
+.fs-text{flex:1;min-width:0;}.fs-text p{font-size:12px;color:#ccc;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}.fs-text span{font-size:10px;color:#555;display:block;margin-top:2px;}
+.fs-ring{position:relative;width:36px;height:36px;flex-shrink:0;}.fs-ring svg{display:block;}
+.fs-ring-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#aaa;font-family:'Orbitron',sans-serif;}
+.fetch-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;}
+.fetch-toggle-row label{font-size:11px;color:rgba(255,215,0,.7);text-transform:uppercase;letter-spacing:1px;font-weight:700;}
+.toggle-wrap{display:flex;align-items:center;gap:8px;}.toggle-wrap span{font-size:11px;color:#888;}
+.toggle-sw{position:relative;width:40px;height:22px;cursor:pointer;}.toggle-sw input{opacity:0;width:0;height:0;}
+.toggle-sl{position:absolute;inset:0;background:#374151;border-radius:22px;transition:.3s;}
+.toggle-sl:before{content:'';position:absolute;width:16px;height:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;}
+.toggle-sw input:checked + .toggle-sl{background:var(--primary);}
+.toggle-sw input:checked + .toggle-sl:before{transform:translateX(18px);background:#000;}
+.fetch-stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.fetch-stat{background:rgba(10,10,15,0.8);border:1px solid rgba(255,215,0,0.18);border-radius:9px;padding:7px 5px;text-align:center;}
+.fetch-stat-label{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;}
+.fetch-stat-val{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;color:var(--primary);}
+
+
+.preview-sticky { position:relative; top:0; }
+.preview-container { background:var(--bg-main); border-radius:15px; border:3px solid var(--primary); overflow:visible; box-shadow:0 0 40px var(--glow-alpha); transition:all 0.5s; }
+.preview-header { text-align:center; padding:20px; background:linear-gradient(180deg,#1a1a1a,#000); border-bottom:3px solid var(--primary); transition:all 0.5s; }
+.preview-header img { max-width:200px; filter:drop-shadow(0 0 20px var(--primary)); margin-bottom:10px; transition:all 0.5s; }
+.preview-header h3 { font-family:'Orbitron',sans-serif; font-size:20px; color:var(--primary); margin-bottom:8px; text-transform:uppercase; letter-spacing:2px; font-weight:900; transition:all 0.5s; }
+.preview-date { font-size:16px; color:var(--primary); font-weight:700; text-shadow:0 0 10px var(--primary); transition:all 0.5s; }
+.preview-marquee { background:linear-gradient(135deg,#1a1a1a,#000,#1a1a1a); color:var(--primary); padding:15px 0; font-weight:900; text-align:center; font-size:14px; text-transform:uppercase; letter-spacing:1.5px; overflow:hidden; white-space:nowrap; border-top:3px solid var(--primary); border-bottom:3px solid var(--primary); text-shadow:0 0 15px var(--primary); transition:all 0.5s; }
+.preview-marquee span { display:inline-block; padding-left:100%; animation:marquee 40s linear infinite; }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+.preview-content { padding:20px; background:var(--bg-main); transition:all 0.5s; }
+
+.league-filter-wrap { display:none; margin-bottom:12px; }
+.prev-filter-wrap { display:none; margin-bottom:10px; display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px; }
+.prev-filter-label { font-size:9px; color:var(--primary); opacity:.75; text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:5px; display:block; }
+.prev-select-box { position:relative; }
+.prev-select-box::after { content:"\25BC"; position:absolute; right:10px; top:50%; transform:translateY(-50%); color:var(--primary); font-size:9px; pointer-events:none; }
+.prev-fselect { width:100%; padding:7px 26px 7px 10px; background:rgba(0,0,0,.85); border:2px solid rgba(255,215,0,0.35); border-radius:9px; color:var(--primary); font-size:11px; font-weight:700; appearance:none; -webkit-appearance:none; outline:none; cursor:pointer; }
+.prev-fselect option { background:#0a0a0a; color:#fff; }
+.prev-search-box { position:relative; }
+.prev-search-icon { position:absolute; left:9px; top:50%; transform:translateY(-50%); color:rgba(255,215,0,0.5); font-size:11px; pointer-events:none; }
+.prev-fsearch { width:100%; padding:7px 10px 7px 26px; background:rgba(0,0,0,.85); border:2px solid rgba(255,215,0,0.35); border-radius:9px; color:var(--primary); font-size:11px; font-weight:700; outline:none; font-family:'Rajdhani',sans-serif; }
+.prev-fsearch::placeholder { color:rgba(255,215,0,0.4); font-weight:600; }
+.prev-fsearch:focus { border-color:var(--primary); }
+.prev-tap-hint { display:none; margin-bottom:10px; align-items:center; justify-content:center; gap:6px; padding:6px 10px; border:1px dashed rgba(255,215,0,0.35); border-radius:9px; background:rgba(212,175,55,.04); }
+.prev-hint-arrow { font-size:13px; display:inline-block; animation:arrowbounce 1s ease-in-out infinite; line-height:1; }
+@keyframes arrowbounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+.prev-hint-text { font-family:'Cinzel',serif; font-size:9px; font-weight:700; color:var(--primary); opacity:.7; letter-spacing:1px; }
+.league-filter-label { font-size:11px; color:var(--primary); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-bottom:8px; opacity:0.8; }
+.league-select-wrap { position:relative; }
+.league-select-wrap::after { content:'▼'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--primary); font-size:11px; pointer-events:none; }
+.league-select { width:100%; padding:10px 38px 10px 14px; background:rgba(10,10,15,0.95); border:2px solid rgba(255,215,0,0.4); border-radius:10px; color:var(--primary); font-family:'Rajdhani',sans-serif; font-size:13px; font-weight:700; cursor:pointer; appearance:none; -webkit-appearance:none; transition:all 0.25s; outline:none; }
+.league-select:focus,.league-select:hover { border-color:var(--primary); box-shadow:0 0 14px var(--glow-soft); }
+.league-select option { background:#0a0a0f; color:#fff; font-weight:700; }
+
+.prev-league-block { margin:12px 0; border:3px solid var(--primary); border-radius:15px; padding:5px; background:rgba(0,0,0,0.5); box-shadow:0 0 20px var(--glow-soft); transition:all 0.5s; }
+.prev-league-inner { border-radius:10px; overflow:hidden; border:1px solid rgba(255,215,0,0.4); }
+.prev-league-crown { background:linear-gradient(180deg,#1a1200,#0d0d0d); padding:8px 10px 6px; text-align:center; border-bottom:1px solid rgba(212,175,55,0.13); }
+.prev-crown-name { font-family:'Cinzel',serif; font-size:clamp(9px,2.4vw,12px); font-weight:900; color:var(--primary); letter-spacing:2px; text-transform:uppercase; margin-top:2px; }
+.prev-match-card { display:block; border-bottom:1px solid #2a2a2a; transition:background 0.2s; }
+.prev-match-card.phidden { display:none; }
+.prev-match-row { display:flex; align-items:center; padding:9px 10px; }
+.prev-match-card:last-child { border-bottom:none; }
+.prev-match-card.even { background:linear-gradient(180deg,#3a3a3a,#2d2d2d); }
+.prev-match-card.odd  { background:linear-gradient(180deg,#2d2d2d,#3a3a3a); }
+.prev-match-card:not(.popen) .prev-match-row:hover { background:linear-gradient(135deg,var(--primary),var(--primary-light)) !important; }
+.prev-match-card:not(.popen) .prev-match-row:hover .prev-team-name,
+.prev-match-card:not(.popen) .prev-match-row:hover .prev-score-num,
+.prev-match-card:not(.popen) .prev-match-row:hover .prev-match-dt { color:#000!important; text-shadow:none!important; }
+.prev-match-card.popen .prev-match-row { background:linear-gradient(180deg,#2a1e00,#1a1200)!important; }
+.prev-pred-panel { display:none; }
+.prev-match-card.popen .prev-pred-panel { display:block; }
+.prev-match-count { position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--primary);color:#000;font-size:7px;font-weight:900;padding:2px 7px;border-radius:20px;white-space:nowrap; }
+.prev-chev { width:14px;flex-shrink:0;margin-left:3px;text-align:center;font-size:9px;color:var(--primary);opacity:.6; transition:transform .25s; }
+.prev-match-card.popen .prev-chev { transform:rotate(180deg); opacity:1; }
+.prev-pred-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px;background:#080500; }
+.prev-pred-col { background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.2);border-radius:8px;padding:6px 4px;text-align:center; }
+.prev-pred-title { font-size:6px;font-weight:900;color:var(--primary);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;opacity:.7; }
+.prev-pred-answer { font-size:10px;font-weight:900;display:block; }
+.prev-pred-answer.green { color:#00d166; }
+.prev-pred-answer.red { color:#ff5555; }
+.prev-pred-answer-neutral { color:var(--primary); }
+.prev-pred-note { font-size:7px;color:#777;display:block;margin-top:2px; }
+.prev-team-side { flex:1; display:flex; align-items:center; gap:6px; min-width:0; }
+.prev-team-side.right { flex-direction:row-reverse; }
+/* PREV BOX-IMAGE hover */
+.prev-box-image{position:relative;width:32px;height:32px;flex-shrink:0;}
+.prev-team-logo { width:32px; height:32px; object-fit:contain; display:block; filter:drop-shadow(0 0 3px rgba(0,0,0,0.7)); transition:transform .4s ease,filter .4s ease; position:relative; z-index:1; }
+.prev-character{position:absolute;bottom:-70%;left:50%;transform:translate(-50%,-50%) scale(0.8);opacity:0;transition:all 0.5s ease;pointer-events:none;z-index:2;width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 0 8px var(--primary));}
+.prev-box-image:hover .prev-team-logo{transform:scale(1.2);filter:drop-shadow(0 0 10px var(--primary)) brightness(1.15);}
+.prev-box-image:hover .prev-character{opacity:1;transform:translate(-50%,-50%) scale(1);}
+/* PREV ACCENT BARS */
+.prev-pred-col{position:relative;overflow:hidden;}
+.prev-pred-col::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.prev-accent-green::before{background:linear-gradient(90deg,transparent,#00d166,transparent);}
+.prev-accent-red::before{background:linear-gradient(90deg,transparent,#ff5555,transparent);}
+.prev-accent-gold::before{background:linear-gradient(90deg,transparent,var(--primary),transparent);}
+.prev-team-name { font-size:clamp(8px,1.6vw,10px); font-weight:700; color:#fff1c4; line-height:1.3; word-break:break-word; }
+.prev-team-side.right .prev-team-name { text-align:right; }
+.prev-score-center { flex-shrink:0; width:72px; text-align:center; padding:0 3px; }
+.prev-score-num { font-family:'Orbitron',sans-serif; font-size:clamp(12px,3vw,16px); font-weight:900; color:var(--primary); text-shadow:0 0 8px var(--primary); letter-spacing:2px; line-height:1; margin-bottom:3px; }
+.prev-match-dt { font-size:clamp(7px,1.5vw,9px); font-weight:700; color:rgba(255,215,0,0.8); line-height:1.5; }
+.preview-empty { color:#ffffff; text-align:center; padding:60px 20px; font-style:italic; font-size:16px; }
+
+.notification { position:fixed; top:30px; right:30px; background:linear-gradient(135deg,#00ff88,#00cc77); color:#000; padding:18px 30px; border-radius:12px; box-shadow:0 10px 30px rgba(0,255,136,0.4); display:none; z-index:10000; animation:slideIn 0.5s ease; font-weight:700; font-size:15px; }
+@keyframes slideIn { from{transform:translateX(400px);opacity:0} to{transform:translateX(0);opacity:1} }
+
+@media(max-width:1300px){ .main-layout{grid-template-columns:3fr 7fr;} }
+@media(max-width:900px){ .main-layout{grid-template-columns:1fr;} .preview-sticky{position:relative;top:0;} .color-grid{grid-template-columns:1fr;} }
+@media(max-width:768px){ .header img.logo{max-width:180px;} .header h1{font-size:28px;} .stats-bar{flex-direction:column;gap:10px;} button{font-size:12px;padding:12px 20px;} #badgeName{display:none;} #currentSiteBadge{padding:8px 10px;} }
+#pageFooter{text-align:center;padding:22px 20px;margin-top:10px;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.35);border-top:1px solid rgba(255,215,0,0.1);text-shadow:0 0 10px rgba(255,215,0,0.1);transition:color 0.5s;user-select:none;}
+#pageFooter:hover{color:rgba(255,255,255,0.55);}
+</style>
+<script src="logo-db-0.js"></script>
+<script src="logo-db-1.js"></script>
+<script src="logo-db-2.js"></script>
+<script src="logo-db-3.js"></script>
+<script src="logo-db-4.js"></script>
+<script src="logo-db-5.js"></script>
+<script src="logo-db-6.js"></script>
+<script src="logo-db-7.js"></script>
+<script src="logo-db-8.js"></script>
+<script src="logo-db-9.js"></script>
+<script src="logo-db.js"></script>
+<script>
+var LOGO_DB = window.LOGO_DB || {};
+var _LOGO_DB_LOADED = true;
+var _LOGO_DB_LOADING = false;
+var _LOGO_DB_QUEUE = [];
+function loadLogoDb(cb){ if(cb) cb(); }
+
+// ── INDEX TERNORMALISASI (key = lowercase + trim) ─────────────────────────
+var LOGO_IDX  = {};
+var _LOGO_KEYS = [];
+(function buildLogoIndex(){
+    var raw = Object.keys(LOGO_DB);
+    for (var i = 0; i < raw.length; i++) {
+        var k = raw[i];
+        var url = LOGO_DB[k];
+        if (k === '' || url === '' || url === null || url === undefined) continue;
+        var nk = String(k).toLowerCase().trim().replace(/\s+/g, ' ');
+        if (!(nk in LOGO_IDX)) { LOGO_IDX[nk] = url; _LOGO_KEYS.push(nk); }
+    }
+})();
+console.log('[LOGO_DB] Loaded ' + Object.keys(LOGO_DB).length + ' entries (index: ' + _LOGO_KEYS.length + ').');
+</script>
+</head>
+<body>
+
+<!-- ══ MAIN APP ══ -->
+<div class="container" id="mainContent">
+
+    <div class="header">
+        <img class="logo" id="headerLogo" src="https://linetogel73.com/assets/img/ei/logo.png" alt="Logo">
+        <h1 id="headerTitle">LINE TOGEL GENERATOR</h1>
+        <p id="headerSub"></p>
+    </div>
+
+    <div class="auto-date">
+        <strong>📅 TANGGAL OTOMATIS</strong>
+        <div class="date-display" id="autoDate">Loading...</div>
+    </div>
+
+    <div class="main-layout">
+        <div class="left-column">
+
+            <!-- v8: Panel EDIT WARNA disembunyikan per request user — inputs tetap ada
+                 (hidden) supaya per-site brand colors + JS preview tetap berfungsi. -->
+            <div class="color-panel" style="display:none;" aria-hidden="true">
+                <input type="color" id="colorBackground"     value="#d4af37">
+                <input type="text"  id="colorBackgroundText" value="#d4af37">
+                <input type="color" id="colorText"           value="#fff1c4">
+                <input type="text"  id="colorTextText"       value="#fff1c4">
+                <input type="color" id="colorHeaderBg"       value="#000000">
+                <input type="text"  id="colorHeaderBgText"   value="#000000">
+                <input type="color" id="colorMarqueeBg"      value="#d4af37">
+                <input type="text"  id="colorMarqueeBgText"  value="#d4af37">
+            </div>
+
+                <!-- AUTO FETCH PANEL -->
+                <div class="fetch-panel">
+                    <div class="fetch-panel-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg>
+                        AUTO FETCH DATA
+                        <span id="newDataBadge" class="new-data-badge">BARU</span>
+                    </div>
+                    <div class="fetch-url-row">
+                        <input type="text" id="fetchUrl" value="https://shortq.xyz/prediksibola" placeholder="URL sumber prediksi..."/>
+                        <button class="btn-fetch" id="btnFetch">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+                            FETCH
+                        </button>
+                    </div>
+                    <div class="fetch-status-bar">
+                        <span class="fs-dot idle" id="fsDot"></span>
+                        <div class="fs-text">
+                            <p id="fsStatusText">Siap. Klik Fetch atau tunggu auto refresh.</p>
+                            <span id="fsLastUpdated">Belum pernah diperbarui</span>
+                        </div>
+                        <div class="fs-ring">
+                            <svg width="36" height="36" viewBox="0 0 36 36">
+                                <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,215,0,0.1)" stroke-width="3"/>
+                                <circle id="cdRing" cx="18" cy="18" r="14" fill="none" stroke="var(--primary)" stroke-width="3" stroke-dasharray="87.96" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 18 18)" style="transition:stroke-dashoffset 1s linear;"/>
+                            </svg>
+                            <div class="fs-ring-num" id="cdNum">60</div>
+                        </div>
+                    </div>
+                    <div class="fetch-toggle-row">
+                        <label>&#x1F504; AUTO REFRESH (60 detik)</label>
+                        <div class="toggle-wrap">
+                            <span id="autoRefLabel">ON</span>
+                            <label class="toggle-sw">
+                                <input type="checkbox" id="autoRefToggle" checked>
+                                <span class="toggle-sl"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="fetch-stats-row">
+                        <div class="fetch-stat"><div class="fetch-stat-label">Liga</div><div class="fetch-stat-val" id="fsLeagues">&#8212;</div></div>
+                        <div class="fetch-stat"><div class="fetch-stat-label">Match</div><div class="fetch-stat-val" id="fsMatches">&#8212;</div></div>
+                        <div class="fetch-stat"><div class="fetch-stat-label">Update</div><div class="fetch-stat-val" id="fsCache" style="font-size:11px;color:#888;">&#8212;</div></div>
+                    </div>
+                </div>
+
+            <div class="section">
+                <div class="section-header-row">
+                    <h2>📝 INPUT PREDIKSI</h2>
+                    <a href="https://shortq.xyz/prediksibola" target="_blank" rel="noopener noreferrer" class="btn-prediksi-link">⚽ Link Prediksi Bola ⚽</a>
+                </div>
+                <div class="stats-bar">
+                    <div class="stat-item"><div class="stat-label">Total Liga</div><div class="stat-value" id="totalLeagues">0</div></div>
+                    <div class="stat-item"><div class="stat-label">Total Match</div><div class="stat-value" id="totalMatches">0</div></div>
+                    <div class="stat-item"><div class="stat-label">Logo Tim ✓</div><div class="stat-value" id="totalLogos">0</div></div>
+                </div>
+                <div class="fetch-indicator" id="fetchIndicator">
+                    <div class="spinner"></div>
+                    <span id="fetchStatus">Mengambil logo tim...</span>
+                </div>
+                <textarea id="inputText" placeholder="Masukkan prediksi — semua format terbaca otomatis:
+
+ENGLISH PREMIER LEAGUE
+08/02 21:00 WIB Brighton VS Crystal Palace 1 : 1
+08/02 23:30 WIB Liverpool VS Manchester City 2 - 2
+
+WOMEN WORLD CUP QUALIFIERS
+08/02 23:00 WIB Norway [W] VS Slovenia [W] 4 : 0
+
+UEFA U21 CHAMPIONSHIP
+08/02 21:00 WIB Moldova U21 VS Serbia U21 0 - 1
+
+[W], U17, U20, U21, U23 → otomatis diabaikan saat cari logo,
+namun tetap tampil di output prediksi."></textarea>
+                <div class="button-group">
+                    <button class="btn-clear" id="btnClear">🗑️ Clear Semua</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📤 OUTPUT HTML LENGKAP</h2>
+                <div class="output-code" id="outputCode">Script HTML lengkap akan muncul di sini secara otomatis...</div>
+                <div class="button-group">
+                    <button class="btn-copy" id="btnCopy">📋 Copy Script HTML</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-column">
+            <div class="preview-sticky">
+                <div class="section">
+                    <h2>👁️ PREVIEW HASIL</h2>
+
+                    <!-- PREVIEW WRAPPER: selalu tampil, no scroll, expand ke bawah -->
+                    <div id="previewMainContainer" style="background:#000;border:3px solid var(--primary);border-radius:15px;overflow:visible;box-shadow:0 0 40px var(--glow-alpha);">
+
+                        <!-- 1. HEADER: Mbappé kiri | Logo | Mbappé kanan -->
+                        <div id="pvHeader" style="background:linear-gradient(180deg,#1a1a1a,#000);border-bottom:3px solid var(--primary);padding:0;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 10px 10px;gap:4px;">
+                                <img id="pvMbappeL" src="https://photoku.io/images/2026/05/31/giffmbappee-finall.gif" alt="Mbappe"
+                                    style="width:22%;max-width:80px;min-width:48px;height:auto;object-fit:contain;transform:scaleX(-1);flex-shrink:0;filter:drop-shadow(0 0 14px var(--primary));transition:filter .4s;"/>
+                                <img id="pvLogo" src="https://linetogel73.com/assets/img/ei/logo.png" alt="Logo"
+                                    style="flex:1;min-width:0;max-width:160px;width:100%;object-fit:contain;display:block;margin:0 auto;padding:0 6px;filter:drop-shadow(0 0 18px var(--primary));transition:filter .4s;"/>
+                                <img id="pvMbappeR" src="https://photoku.io/images/2026/05/31/giffmbappee-finall.gif" alt="Mbappe"
+                                    style="width:22%;max-width:80px;min-width:48px;height:auto;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 14px var(--primary));transition:filter .4s;"/>
+                            </div>
+                        </div>
+
+                        <!-- 2. DATE -->
+                        <div id="pvDate" style="display:flex;align-items:center;justify-content:center;margin:12px auto;width:90%;padding:8px 10px;border:3px solid var(--primary);border-radius:15px;background:linear-gradient(180deg,#1a1a1a,#000);box-shadow:0 0 18px rgba(212,175,55,.4);">
+                            <span id="pvDateText" style="font-family:'Cinzel',serif;font-size:clamp(11px,2.8vw,15px);font-weight:700;color:var(--primary);letter-spacing:2px;text-align:center;">&#128197; -</span>
+                        </div>
+
+                        <!-- 3. STATS BAR -->
+                        <div id="pvStats" style="width:90%;margin:0 auto 12px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+                            <div style="background:linear-gradient(180deg,#1a1200,#0a0800);border:2px solid rgba(212,175,55,.35);border-radius:13px;padding:10px 6px;text-align:center;">
+                                <span id="pvStatLeague" style="font-family:'Cinzel',serif;font-size:20px;font-weight:900;color:var(--primary);line-height:1;display:block;">0</span>
+                                <span style="font-size:9px;font-weight:700;color:var(--primary);opacity:.6;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:3px;">Liga</span>
+                            </div>
+                            <div style="background:linear-gradient(180deg,#1a1200,#0a0800);border:2px solid rgba(212,175,55,.35);border-radius:13px;padding:10px 6px;text-align:center;">
+                                <span id="pvStatMatch" style="font-family:'Cinzel',serif;font-size:20px;font-weight:900;color:var(--primary);line-height:1;display:block;">0</span>
+                                <span style="font-size:9px;font-weight:700;color:var(--primary);opacity:.6;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:3px;">Pertandingan</span>
+                            </div>
+                            <div style="background:linear-gradient(180deg,#1a1200,#0a0800);border:2px solid rgba(212,175,55,.35);border-radius:13px;padding:10px 6px;text-align:center;">
+                                <span style="font-family:'Cinzel',serif;font-size:20px;font-weight:900;color:var(--primary);line-height:1;display:block;">100%</span>
+                                <span style="font-size:9px;font-weight:700;color:var(--primary);opacity:.6;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:3px;">Terupdate</span>
+                            </div>
+                        </div>
+
+                        <!-- 4. MARQUEE -->
+                        <div style="overflow:hidden;white-space:nowrap;width:90%;margin:0 auto 12px;border:3px solid var(--primary);border-radius:15px;background:linear-gradient(135deg,#1a1a1a,#000,#1a1a1a);padding:12px 0;box-shadow:0 0 16px rgba(212,175,55,.35);">
+                            <div id="pvMarquee" style="display:inline-block;animation:pvmarquee 38s linear infinite;padding-left:100%;font-size:clamp(10px,2.5vw,13px);font-weight:900;color:var(--primary);letter-spacing:1.5px;text-shadow:0 0 10px rgba(212,175,55,.5);">👑 PREDIKSI BOLA TERUPDATE ! Tunggu apa lagi? Daftar di LINE TOGEL dan nikmati pengalaman taruhan terbaik dengan peluang besar! 👑</div>
+                        </div>
+                        <style>@keyframes pvmarquee{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}</style>
+
+                        <!-- 5. FILTER: Pilih Liga + Cari Tim -->
+                        <div style="width:90%;margin:0 auto 12px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                            <div>
+                                <span style="font-size:10px;color:var(--primary);opacity:.75;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;display:block;">&#127942; Pilih Liga</span>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--primary);font-size:9px;pointer-events:none;">▼</span>
+                                    <select id="pvLeagueFilter"
+                                        style="width:100%;padding:8px 28px 8px 10px;background:rgba(0,0,0,.85);border:2px solid rgba(212,175,55,.4);border-radius:10px;color:var(--primary);font-size:11px;font-weight:700;appearance:none;-webkit-appearance:none;outline:none;cursor:pointer;">
+                                        <option value="all">Semua Liga</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <span style="font-size:10px;color:var(--primary);opacity:.75;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;display:block;">&#128269; Cari Tim</span>
+                                <div style="position:relative;">
+                                    <span style="position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(212,175,55,.5);font-size:12px;pointer-events:none;">⚽</span>
+                                    <input id="pvTeamSearch" type="text" placeholder="Nama tim..."
+                                        style="width:100%;padding:8px 10px 8px 26px;background:rgba(0,0,0,.85);border:2px solid rgba(212,175,55,.4);border-radius:10px;color:var(--primary);font-size:11px;font-weight:700;outline:none;font-family:'Poppins',sans-serif;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. TAP HINT -->
+                        <div id="pvTapHint" style="display:none;width:90%;margin:0 auto 12px;align-items:center;justify-content:center;gap:8px;padding:9px 14px;border:2px solid rgba(212,175,55,.7);border-radius:10px;background:rgba(212,175,55,0.15);">
+                            <span style="font-size:14px;display:inline-block;animation:arrowbounce 1s ease-in-out infinite;line-height:1;">⬇</span>
+                            <span style="font-family:'Cinzel',serif;font-size:clamp(8px,2vw,10px);font-weight:700;color:var(--primary);opacity:.7;letter-spacing:1px;">Klik pertandingan untuk melihat prediksi</span>
+                            <span style="font-size:14px;display:inline-block;animation:arrowbounce 1s ease-in-out infinite;line-height:1;">⬇</span>
+                        </div>
+
+                        <!-- 7. MATCH CARDS (expand ke bawah) -->
+                        <div id="pvTables"></div>
+
+                        <!-- 8. EMPTY STATE -->
+                        <div id="pvEmpty" style="color:rgba(255,255,255,.4);text-align:center;padding:40px 20px;font-style:italic;font-size:13px;">
+                            Preview akan muncul di sini secara otomatis...
+                        </div>
+
+                    </div><!-- /previewMainContainer -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="notification" id="notification">✓ Notification</div>
+<div id="pageFooter">🔒 2026 LINE TOGEL Generator | All Rights Reserved 🔒</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+//  LINE TOGEL Generator
+//  Single Site: LINE TOGEL
+// ══════════════════════════════════════════════════════════
+
+// ── SITES CONFIG ──────────────────────────────────────────
+var SITES = {
+    linetogel: {
+        name:'LINE TOGEL', sub:'',
+        logo:'https://linetogel73.com/assets/img/ei/logo.png',
+        favicon:'https://linetogel73.com/assets/img/ei/favicon.png',
+        mbappeGif:'https://photoku.io/images/2026/05/31/giffmbappee-finall.gif',
+        bg:'https://cdn.areabermain.club/assets/cdn/az6/2026/01/08/20260108/0e9b0ec9a88ad88a5935bc5802bc41a5/linetogel-background-07januari2026.jpg',
+        bgOverlay:'rgba(19,0,32,0.55), rgba(28,0,48,0.62)',
+        previewHeaderBg:'linear-gradient(180deg,#2a0547,#130020)',
+        marquee:'\ud83d\udc51 PREDIKSI BOLA TERUPDATE ! Tunggu apa lagi? Daftar di LINE TOGEL dan nikmati pengalaman taruhan terbaik dengan peluang besar! \ud83d\udc51',
+        defaultColors:{bg:'#CE4FFF',txt:'#f3e2ff',hd:'#1c0030',mq:'#CE4FFF'},
+        cssVars:{'--primary':'#CE4FFF','--primary-light':'#E08CFF','--primary-dark':'#8F1FD0','--bg-deep':'#130020','--bg-main':'#1c0030','--bg-surface':'#2a0547','--text-color':'#f3e2ff','--marquee-color':'#CE4FFF','--glow-alpha':'rgba(206,79,255,0.45)','--glow-soft':'rgba(206,79,255,0.22)'}
+    }
+};
+var currentSite = 'linetogel';
+
+// ── LOCAL PHP API ─────────────────────────────────────────
+var _IS_AUTH = true;
+var _WM = null;
+
+var API_URL = null; // GitHub Pages
+var logoCache = {};
+
+// ── DOMAIN GUARD (STRICT untuk akses logo asli) ──────────────────────────
+// Hanya hostname persis 'leo08.page.gd' (atau subdomain *.leo08.page.gd) dapat logo asli.
+function _isAllowed(h){ return true; }
+
+// ── CLEAN NAMA UNTUK LOOKUP LOGO ─────────────────────────
+function cleanName(name) {
+    return name
+        .replace(/\[\s*W\s*\]/gi, '').replace(/\(\s*W\s*\)/gi, '')
+        .replace(/\[\s*[nN]\s*\]/g, '')
+        .replace(/\bU\s*1[0-9]\b/gi, '').replace(/\bU\s*2[0-3]\b/gi, '')
+        .replace(/\(U\s*\d{2}\)/gi, '')
+        .replace(/\bSenior\b/gi, '').replace(/\bJunior\b/gi, '')
+        .replace(/\s+/g, ' ').trim();
+}
+
+
+// ── 6-STEP FUZZY LOOKUP — mirror bola_lookup_team() di api_logo.php ──────────
+function _fuzzyLookup(name, keyIn) {
+    if (typeof LOGO_DB === 'undefined') return null;
+    var key = (keyIn !== undefined) ? keyIn : name.toLowerCase();
+
+    // ── step 0: strip gender/age/bracket suffixes ────────────────────────
+    var clean = key
+        .replace(/\[\s*w\s*\]/gi, '')
+        .replace(/\(\s*w\s*\)/gi, '')
+        .replace(/\bu\s*1[0-9]\b/gi, '')
+        .replace(/\bu\s*2[0-3]\b/gi, '')
+        .replace(/\(u\s*\d{2}\)/gi, '')
+        .replace(/\[youth\]/gi, '')
+        .replace(/\b(senior|junior|women|femenino)\b/gi, '')
+        .replace(/\s+/g, ' ').trim();
+
+    // ── step 1: exact original ───────────────────────────────────────────
+    if (LOGO_DB[key]) return LOGO_DB[key];
+    // ── step 2: exact clean ─────────────────────────────────────────────
+    if (clean && clean !== key && LOGO_DB[clean]) return LOGO_DB[clean];
+    // ── step 3: strip [N] prefix ─────────────────────────────────────────
+    var nonum = clean.replace(/^\[\d+\]\s*/, '');
+    if (nonum !== clean && LOGO_DB[nonum]) return LOGO_DB[nonum];
+    // ── step 4: strip trailing (bracket) ────────────────────────────────
+    var nob = clean.replace(/\s*\(.*?\)\s*$/, '').trim();
+    if (nob && nob !== clean && LOGO_DB[nob]) return LOGO_DB[nob];
+    if (nob && nob !== nonum  && LOGO_DB[nob]) return LOGO_DB[nob];
+
+    // ── step 5: strip common prefix (FC,FK,AC,SK,FA,etc.) → retry step1-4 ──
+    var _PREFIXES = {'fc':1,'fk':1,'ac':1,'sk':1,'fa':1,'ia':1,'bk':1,
+                     'bfc':1,'afc':1,'as':1,'cf':1,'cs':1,'sd':1,'cd':1,'if':1};
+    var _SUFFIXES = {'fc':1,'if':1,'bk':1,'fk':1,'sc':1,'ac':1,'sk':1,'cf':1};
+    var parts = clean.split(' ');
+    if (parts.length > 1 && _PREFIXES[parts[0]]) {
+        var nopfx = parts.slice(1).join(' ');
+        if (LOGO_DB[nopfx]) return LOGO_DB[nopfx];
+    }
+    if (parts.length > 1 && _SUFFIXES[parts[parts.length-1]]) {
+        var nosfx = parts.slice(0, parts.length-1).join(' ');
+        if (LOGO_DB[nosfx]) return LOGO_DB[nosfx];
+    }
+
+    // ── step 6: try each individual word as exact DB key (handles CRB, KTP etc.) ──
+    for (var wi = 0; wi < parts.length; wi++) {
+        var pw = parts[wi];
+        if (pw.length >= 2 && LOGO_DB[pw]) return LOGO_DB[pw];
+    }
+
+    // ── step 7: ALL words >=4 chars present in DB key ────────────────────
+    var base  = nonum || clean;
+    var words = base.split(/\s+/).filter(function(w){ return w.length >= 4; });
+    if (words.length > 0) {
+        var ks = Object.keys(LOGO_DB);
+        for (var i = 0; i < ks.length; i++) {
+            var ok = true;
+            for (var j = 0; j < words.length; j++) {
+                if (ks[i].indexOf(words[j]) < 0) { ok = false; break; }
+            }
+            if (ok) return LOGO_DB[ks[i]];
+        }
+        // ── step 8: any word >=5 chars present — last resort ────────────
+        for (var i = 0; i < ks.length; i++) {
+            for (var j = 0; j < words.length; j++) {
+                if (words[j].length >= 5 && ks[i].indexOf(words[j]) >= 0) {
+                    return LOGO_DB[ks[i]];
+                }
+            }
+        }
+    }
+
+    return null;
+}
+
+// ── FETCH LOGO BATCH — 6-step fuzzy (mirror api_logo.php) ────────────
+async function fetchLogoBatch(teamNames) {
+    if (!teamNames.length) return;
+    if (typeof LOGO_DB === 'undefined' || Object.keys(LOGO_DB).length === 0) return;
+
+    teamNames.forEach(function(name) {
+        var clean = cleanName(name);
+        var key   = clean.toLowerCase();
+        var okey  = name.toLowerCase();
+
+        if (logoCache[key] && logoCache[key].indexOf('data:image/svg') < 0) {
+            logoCache[okey] = logoCache[key];
+            return;
+        }
+
+        var url = _fuzzyLookup(clean, key);
+        logoCache[key]  = url || makeSVG(clean);
+        logoCache[okey] = logoCache[key];
+    });
+}
+
+// ── LAPOR KE ADMIN PANEL (missing_logger.php) ─────────────
+var _REPORTED = {};       // anti-spam: 1x per nama per session
+var _REPORT_QUEUE = [];   // batch crash reports
+var _REPORT_TIMER = null;
+
+function bolaReportMissingFromCache(cleanNames) {
+    if (!_IS_AUTH || !cleanNames || !cleanNames.length) return;
+    var missing = [];
+    cleanNames.forEach(function(name){
+        var key = name.toLowerCase();
+        var url = logoCache[key];
+        // null/undefined/empty = tidak ditemukan; data:image/svg = fallback initials
+        var isMissing = (url === null || url === undefined || url === '' ||
+            (typeof url === 'string' && url.indexOf('data:image/svg+xml') === 0));
+        if (isMissing && !_REPORTED[key]) {
+            _REPORTED[key] = true;
+            missing.push(name);
+        }
+    });
+    if (missing.length) bolaSendReport(missing, 'missing');
+}
+
+function bolaReportCrash(imgEl) {
+    if (!_IS_AUTH || !imgEl) return;
+    var name = imgEl.getAttribute('data-team') || imgEl.getAttribute('alt') || '';
+    name = (name || '').trim();
+    if (!name) return;
+    var key = name.toLowerCase();
+    if (_REPORTED[key]) return;
+    _REPORTED[key] = true;
+
+    // Ganti dengan SVG fallback supaya UI tidak broken
+    try { imgEl.src = makeSVG(name); } catch(e){}
+
+    // Batch reports — kumpulkan dalam 1 detik
+    _REPORT_QUEUE.push(name);
+    if (_REPORT_TIMER) clearTimeout(_REPORT_TIMER);
+    _REPORT_TIMER = setTimeout(function(){
+        var batch = _REPORT_QUEUE.slice(0);
+        _REPORT_QUEUE = [];
+        if (batch.length) bolaSendReport(batch, 'crash');
+    }, 1000);
+}
+
+function bolaSendReport(teams, reason) { /* disabled — no server */ }
+// Expose ke window supaya bisa dipanggil dari atribut HTML onerror
+window.bolaReportCrash = bolaReportCrash;
+
+function getLogoUrl(teamName) {
+    var key  = teamName.toLowerCase();
+    var ckey = cleanName(teamName).toLowerCase();
+
+    // 1. Dari logoCache
+    if (logoCache[ckey] && logoCache[ckey].indexOf('data:image/svg') < 0) return logoCache[ckey];
+    if (logoCache[key]  && logoCache[key].indexOf('data:image/svg')  < 0) return logoCache[key];
+
+    // 2. Fuzzy lookup ke LOGO_DB
+    if (typeof LOGO_DB !== 'undefined' && Object.keys(LOGO_DB).length > 0) {
+        var lu = _fuzzyLookup(teamName, key) || _fuzzyLookup(cleanName(teamName), ckey);
+        if (lu) {
+            logoCache[ckey] = lu;
+            logoCache[key]  = lu;
+            return lu;
+        }
+    }
+
+    // 3. SVG fallback
+    return makeSVG(teamName);
+}
+
+function makeSVG(teamName) {
+    var words    = teamName.replace(/[^a-zA-Z\s]/g,' ').trim().split(/\s+/).filter(function(w){ return w.length > 0; });
+    var initials = words.map(function(w){ return w[0].toUpperCase(); }).join('').substring(0,3) || 'TM';
+    var colors   = ['#FFD700','#FDB931','#FF8C00','#00BFFF','#FF4C4C','#00CC88','#8A2BE2','#DC143C','#20B2AA'];
+    var hash = 0; for (var i=0; i<teamName.length; i++) hash = teamName.charCodeAt(i)+((hash<<5)-hash);
+    var color = colors[Math.abs(hash) % colors.length];
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><circle cx="60" cy="60" r="55" fill="'+color+'" stroke="#000" stroke-width="5"/><text x="50%" y="55%" text-anchor="middle" fill="#000" font-size="38" font-weight="bold" font-family="Arial" dy=".3em">'+initials+'</text></svg>';
+    try { return 'data:image/svg+xml;base64,' + btoa(svg); }
+    catch(e) { return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg); }
+}
+
+// ── DRAWER MENU ───────────────────────────────────────────
+function toggleSiteMenu() {
+    var drawer = document.getElementById('siteMenuDrawer');
+    drawer.classList.contains('open') ? closeSiteMenu() : openSiteMenu();
+}
+function openSiteMenu() {
+    document.getElementById('hamburgerBtn').classList.add('open');
+    document.getElementById('siteMenuDrawer').classList.add('open');
+    document.getElementById('siteMenuOverlay').classList.add('visible');
+}
+function closeSiteMenu() {
+    document.getElementById('hamburgerBtn').classList.remove('open');
+    document.getElementById('siteMenuDrawer').classList.remove('open');
+    document.getElementById('siteMenuOverlay').classList.remove('visible');
+}
+
+// ── SITE SWITCHER ─────────────────────────────────────────
+function switchSite(site) {
+    currentSite = site;
+    var cfg = SITES[site];
+    var root = document.documentElement;
+    Object.keys(cfg.cssVars).forEach(function(k){ root.style.setProperty(k, cfg.cssVars[k]); });
+    document.body.style.background = 'linear-gradient(135deg,' + cfg.bgOverlay + '),url("' + cfg.bg + '")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    ['linetogel'].forEach(function(s){
+        var el = document.getElementById('opt-' + s);
+        if (el) el.classList.toggle('active', s === site);
+    });
+    document.getElementById('badgeLogo').src = cfg.logo;
+    document.getElementById('badgeName').textContent = cfg.name;
+    document.getElementById('headerLogo').src = cfg.logo;
+    document.getElementById('headerTitle').textContent = cfg.name + ' GENERATOR';
+    document.getElementById('headerSub').textContent   = cfg.sub;
+    document.title = cfg.name + ' Generator';
+    document.getElementById('favicon').href = cfg.favicon;
+    var d = cfg.defaultColors;
+    setColorValues(d.bg, d.txt, d.hd, d.mq);
+    updatePreviewColors();
+    reRenderIfHasData();
+    closeSiteMenu();
+    showNotification('✓ Beralih ke ' + cfg.name + '!');
+}
+function setColorValues(bg, txt, hd, mq) {
+    document.getElementById('colorBackground').value     = bg;
+    document.getElementById('colorBackgroundText').value = bg;
+    document.getElementById('colorText').value           = txt;
+    document.getElementById('colorTextText').value       = txt;
+    document.getElementById('colorHeaderBg').value       = hd;
+    document.getElementById('colorHeaderBgText').value   = hd;
+    document.getElementById('colorMarqueeBg').value      = mq;
+    document.getElementById('colorMarqueeBgText').value  = mq;
+}
+
+// ── PARSE ─────────────────────────────────────────────────
+function parseMatchLine(line) {
+    var tmp = line.trim().replace(/\r/g,'');
+    if (!/\bv\.?s\.?\b/i.test(tmp)) return null;
+    var date='', time='', score1='', score2='';
+    var sm = tmp.match(/\b(\d{1,2})\s*[:\-\u2013\u2014]\s*(\d{1,2})\s*$/);
+    if (sm) { score1=sm[1]; score2=sm[2]; tmp=tmp.substring(0,sm.index).trim(); }
+    var dtm = tmp.match(/^(\d{1,2}[\/\-]\d{1,2}(?:[\/\-]\d{2,4})?)(?:\s+(\d{1,2}[:.](\d{2}))(?:\s+(WIB|WITA|WIT))?)?/i);
+    if (dtm) {
+        date = dtm[1].replace('-','/');
+        if (dtm[2]) { time = dtm[2].replace('.',':'); if (dtm[4]) time += ' ' + dtm[4].toUpperCase(); }
+        tmp = tmp.substring(dtm[0].length).trim();
+    } else {
+        var tm = tmp.match(/^(\d{1,2}[:.](\d{2}))(?:\s+(WIB|WITA|WIT))?/i);
+        if (tm) {
+            time = tm[1].replace('.',':');
+            if (tm[3]) time += ' ' + tm[3].toUpperCase();
+            tmp = tmp.substring(tm[0].length).trim();
+        }
+    }
+    var vm = tmp.match(/^(.+?)\s+v\.?s\.?\s+(.+)$/i);
+    if (!vm) return null;
+    var team1 = vm[1].trim().replace(/^\[\d+\]\s*/,'').replace(/\[\s*[nN]\s*\]/g,'').replace(/\s+/g,' ').trim();
+    var team2 = vm[2].trim().replace(/^\[\d+\]\s*/,'').replace(/\[\s*[nN]\s*\]/g,'').replace(/\s+/g,' ').trim();
+    if (!team1 || !team2) return null;
+    if (score1 === '') { score1 = '-'; score2 = '-'; }
+    return {
+        date: date||'-', time: time||'-',
+        team1: team1, team2: team2,
+        team1Clean: cleanName(team1.replace(/^\[\d+\]\s*/,'')),
+        team2Clean: cleanName(team2.replace(/^\[\d+\]\s*/,'')),
+        score1: score1, score2: score2
+    };
+}
+function parseAll(input) {
+    var lines = input.split('\n').filter(function(l){ return l.trim() !== ''; });
+    var result=[], curLeague=null, matches=[];
+    for (var i=0; i<lines.length; i++) {
+        var line = lines[i].trim();
+        var m    = parseMatchLine(line);
+        if (!m) {
+            if (curLeague && matches.length) result.push({name:curLeague, matches:matches.slice()});
+            curLeague = line; matches = [];
+        } else {
+            if (curLeague) matches.push(m);
+        }
+    }
+    if (curLeague && matches.length) result.push({name:curLeague, matches:matches.slice()});
+    return result;
+}
+function getAllCleans(leagues) {
+    var set = {};
+    leagues.forEach(function(l){ l.matches.forEach(function(m){ set[m.team1Clean]=true; set[m.team2Clean]=true; }); });
+    return Object.keys(set);
+}
+
+// ── COLOR HELPERS ─────────────────────────────────────────
+function adjustColor(c, a) {
+    var n = parseInt(c.replace('#',''), 16);
+    var r = Math.min(255, Math.max(0, (n>>16)+a));
+    var g = Math.min(255, Math.max(0, ((n>>8)&0xFF)+a));
+    var b = Math.min(255, Math.max(0, (n&0xFF)+a));
+    return '#' + (r<<16|g<<8|b).toString(16).padStart(6,'0');
+}
+function getColors() {
+    return {
+        bg:  document.getElementById('colorBackground').value,
+        txt: document.getElementById('colorText').value,
+        hd:  document.getElementById('colorHeaderBg').value,
+        mq:  document.getElementById('colorMarqueeBg').value,
+    };
+}
+
+// ── PREVIEW PANEL — selalu tampil, expand ke bawah ────────
+
+function pvUpdateHeader() {
+    var cfg = SITES[currentSite];
+    var c   = getColors();
+    // Logo
+    var pvL = document.getElementById('pvLogo');
+    if (pvL) { pvL.src = cfg.logo; pvL.style.filter = 'drop-shadow(0 0 18px '+c.bg+')'; }
+    // Mbappé
+    var mbUrl = cfg.mbappeGif || 'https://photoku.io/images/2026/05/31/giffmbappee-finall.gif';
+    var ml = document.getElementById('pvMbappeL'), mr = document.getElementById('pvMbappeR');
+    if (ml) { ml.src = mbUrl; ml.style.filter = 'drop-shadow(0 0 14px '+c.bg+')'; }
+    if (mr) { mr.src = mbUrl; mr.style.filter = 'drop-shadow(0 0 14px '+c.bg+')'; }
+    // Header border color
+    var hdr = document.getElementById('pvHeader');
+    if (hdr) hdr.style.borderBottomColor = c.bg;
+    // Marquee text
+    var mq = document.getElementById('pvMarquee');
+    if (mq) { mq.textContent = cfg.marquee + '\u00a0\u00a0\u00a0\u00a0' + cfg.marquee; mq.style.color = c.bg; }
+    // Date color
+    var dt = document.getElementById('pvDateText');
+    if (dt) dt.style.color = c.bg;
+    var dateBox = document.getElementById('pvDate');
+    if (dateBox) { dateBox.style.borderColor = c.bg; dateBox.style.boxShadow = '0 0 18px '+c.bg+'66'; }
+    // Stats color
+    document.querySelectorAll('#pvStats span[style*="Cinzel"]').forEach(function(el){ el.style.color = c.bg; });
+    // Filter colors
+    var lf = document.getElementById('pvLeagueFilter');
+    if (lf) { lf.style.borderColor = c.bg+'66'; lf.style.color = c.bg; }
+    var ts = document.getElementById('pvTeamSearch');
+    if (ts) { ts.style.borderColor = c.bg+'66'; ts.style.color = c.bg; }
+    // Main container border
+    var mc = document.getElementById('previewMainContainer');
+    if (mc) { mc.style.borderColor = c.bg; mc.style.boxShadow = '0 0 40px '+c.bg+'66'; }
+}
+
+function pvUpdateDate() {
+    var autoDate = document.getElementById('autoDate').textContent;
+    var dt = document.getElementById('pvDateText');
+    if (dt) dt.textContent = '📅 ' + autoDate;
+}
+
+function pvUpdateStats(leagues) {
+    var totalM = leagues ? leagues.reduce(function(a,l){ return a+l.matches.length; }, 0) : 0;
+    var totalL = leagues ? leagues.length : 0;
+    var sm = document.getElementById('pvStatMatch'), sl = document.getElementById('pvStatLeague');
+    if (sm) sm.textContent = totalM;
+    if (sl) sl.textContent = totalL;
+}
+
+function pvBuildLeagueDropdown(leagues) {
+    var sel = document.getElementById('pvLeagueFilter');
+    if (!sel) return;
+    sel.innerHTML = '<option value="all">Semua Liga</option>';
+    (leagues || []).forEach(function(l){
+        var o = document.createElement('option');
+        o.value = l.name; o.textContent = '🏆 ' + l.name;
+        sel.appendChild(o);
+    });
+    sel.value = 'all';
+    var ts = document.getElementById('pvTeamSearch');
+    if (ts) ts.value = '';
+}
+
+function pvFilterLeague(val) {
+    var ts = document.getElementById('pvTeamSearch');
+    if (ts) ts.value = '';
+    document.querySelectorAll('#pvTables .pv-match-card').forEach(function(c){ c.classList.remove('pvhidden'); });
+    document.querySelectorAll('#pvTables .pv-league-block').forEach(function(b){
+        b.style.display = (val==='all' || b.getAttribute('data-league')===val) ? '' : 'none';
+    });
+}
+
+function pvSearchTeam(val) {
+    var sel = document.getElementById('pvLeagueFilter');
+    if (sel) sel.value = 'all';
+    document.querySelectorAll('#pvTables .pv-league-block').forEach(function(b){ b.style.display=''; });
+    var q = val.trim().toLowerCase();
+    document.querySelectorAll('#pvTables .pv-match-card').forEach(function(c){
+        if (!q) { c.classList.remove('pvhidden'); return; }
+        c.classList.toggle('pvhidden', (c.dataset.teams||'').indexOf(q)===-1);
+    });
+    document.querySelectorAll('#pvTables .pv-league-block').forEach(function(b){
+        b.style.display = b.querySelectorAll('.pv-match-card:not(.pvhidden)').length ? '' : 'none';
+    });
+}
+
+function pvToggleCard(card) {
+    var wasOpen = card.classList.contains('pvopen');
+    document.querySelectorAll('#pvTables .pv-match-card.pvopen').forEach(function(c){ c.classList.remove('pvopen'); });
+    if (!wasOpen) card.classList.add('pvopen');
+}
+window.pvToggleCard = pvToggleCard;
+
+function renderPreview(leagues) {
+    var tablesDiv = document.getElementById('pvTables');
+    var emptyDiv  = document.getElementById('pvEmpty');
+    var tapHint   = document.getElementById('pvTapHint');
+    pvUpdateHeader();
+    pvUpdateDate();
+    pvUpdateStats(leagues);
+    pvBuildLeagueDropdown(leagues);
+    if (!leagues || !leagues.length) {
+        if (tablesDiv) tablesDiv.innerHTML = '';
+        if (emptyDiv)  emptyDiv.style.display = 'block';
+        if (tapHint)   tapHint.style.display  = 'none';
+        return;
+    }
+    if (emptyDiv)  emptyDiv.style.display  = 'none';
+    if (tapHint)   tapHint.style.display   = 'flex';
+
+    var c   = getColors();
+    var ltr = adjustColor(c.bg, 30);
+    var html = '';
+
+    // Inject CSS khusus pv- sekali saja
+    if (!document.getElementById('pv-style')) {
+        var st = document.createElement('style');
+        st.id = 'pv-style';
+        st.textContent =
+            '.pv-league-block{width:90%;margin:0 auto 16px;border-radius:15px;padding:5px;background:rgba(0,0,0,.5);}' +
+            '.pv-league-inner{border-radius:10px;overflow:hidden;}' +
+            '.pv-league-crown{padding:8px 10px 6px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid rgba(212,175,55,.15);overflow:hidden;}' +
+            '.pv-league-crown::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:skewX(-20deg);animation:pvcrownshine 1.8s ease-in-out infinite;}' +
+            '@keyframes pvcrownshine{0%{left:-120%}50%{left:130%}100%{left:130%}}' +
+            '.pv-crown-name{font-family:"Cinzel",serif;font-size:clamp(9px,2.2vw,11px);font-weight:900;letter-spacing:2px;text-transform:uppercase;text-align:center;}' +
+            '.pv-match-count{position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#000;font-family:"Cinzel",serif;font-size:7px;font-weight:900;padding:2px 7px;border-radius:20px;white-space:nowrap;}' +
+            '.pv-match-card{border-bottom:1px solid #2a2a2a;cursor:pointer;user-select:none;}' +
+            '.pv-match-card:last-child{border-bottom:none;}' +
+            '.pv-match-card.pvhidden{display:none;}' +
+            '.pv-match-row{display:flex;align-items:center;padding:9px 10px;transition:background .2s;}' +
+            '.pv-match-card.even .pv-match-row{background:linear-gradient(180deg,#3a3a3a,#2d2d2d);}' +
+            '.pv-match-card.odd  .pv-match-row{background:linear-gradient(180deg,#2d2d2d,#3a3a3a);}' +
+            '.pv-match-card.pvopen .pv-match-row{background:linear-gradient(180deg,#2a1e00,#1a1200)!important;}' +
+            '.pv-box-image{position:relative;width:34px;height:34px;flex-shrink:0;}' +
+            '.pv-box-image img.pv-logo{width:34px;height:34px;object-fit:contain;display:block;filter:drop-shadow(0 0 4px rgba(0,0,0,.7));transition:transform .4s,filter .4s;position:relative;z-index:1;}' +
+            '.pv-box-image img.pv-char{display:none !important;}' +
+            '.pv-box-image::before{content:"";display:none;}' +
+            '.pv-box-image:hover::before{display:none;}' +
+            '.pv-match-row:hover .pv-box-image img.pv-logo{transform:scale(1.45);filter:drop-shadow(0 0 14px var(--primary)) drop-shadow(0 0 28px var(--primary)) brightness(1.2);}' +
+            '.pv-match-row:hover .pv-box-image img.pv-char{display:none !important;}' +
+            '.pv-team-side{flex:1;display:flex;align-items:center;gap:6px;min-width:0;}' +
+            '.pv-team-side.right{flex-direction:row-reverse;}' +
+            '.pv-team-name{font-size:clamp(8px,1.8vw,10px);font-weight:700;color:#fff1c4;line-height:1.3;word-break:break-word;}' +
+            '.pv-team-side.right .pv-team-name{text-align:right;}' +
+            '.pv-score-center{flex-shrink:0;width:68px;text-align:center;padding:0 3px;}' +
+            '.pv-score-num{font-family:"Cinzel",serif;font-size:clamp(13px,3.5vw,17px);font-weight:900;letter-spacing:2px;line-height:1;margin-bottom:3px;}' +
+            '.pv-match-dt{font-size:clamp(7px,1.5vw,9px);font-weight:700;opacity:.8;line-height:1.5;}' +
+            '.pv-chev{width:14px;flex-shrink:0;margin-left:3px;text-align:center;font-size:9px;opacity:.6;transition:transform .25s;}' +
+            '.pv-match-card.pvopen .pv-chev{transform:rotate(180deg);opacity:1;}' +
+            '.pv-pred-panel{display:none;}' +
+            '.pv-match-card.pvopen .pv-pred-panel{display:block;}' +
+            '.pv-pred-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:8px;background:#080500;}' +
+            '.pv-pred-col{background:rgba(212,175,55,.05);border:1px solid rgba(212,175,55,.2);border-radius:8px;padding:6px 4px;text-align:center;position:relative;overflow:hidden;}' +
+            '.pv-pred-col::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;}' +
+            '.pv-ac-green::before{background:linear-gradient(90deg,transparent,#00d166,transparent);}' +
+            '.pv-ac-red::before{background:linear-gradient(90deg,transparent,#ff5555,transparent);}' +
+            '.pv-ac-gold::before{background:linear-gradient(90deg,transparent,var(--primary),transparent);}' +
+            '.pv-pred-title{font-family:"Cinzel",serif;font-size:11px;font-weight:900;color:var(--primary);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;opacity:.7;}' +
+            '.pv-pred-answer{font-size:clamp(13px,3.8vw,18px);font-weight:900;display:block;font-family:"Cinzel",serif;}' +
+            '.pv-pred-answer.green{color:#00d166;}' +
+            '.pv-pred-answer.red{color:#ff5555;}' +
+            '.pv-pred-note{font-family:"Cinzel",serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.65);display:block;margin-top:3px;letter-spacing:.3px;}' +
+            '@media(max-width:440px){.pv-pred-grid{grid-template-columns:repeat(2,1fr);}}';
+        document.head.appendChild(st);
+    }
+
+    leagues.forEach(function(league){
+        var mc  = league.matches.length;
+        var enc = league.name.replace(/"/g,'&quot;');
+        html += '<div class="pv-league-block" data-league="'+enc+'" style="border:3px solid '+c.bg+';box-shadow:0 0 16px '+c.bg+'66;">';
+        html += '<div class="pv-league-inner" style="border:1px solid '+c.bg+'44;">';
+        html += '<div class="pv-league-crown" style="background:linear-gradient(180deg,#1a1200,#0d0d0d);">';
+        html += '<div class="pv-crown-name" style="color:'+c.bg+';">&#127942; '+league.name+' &#127942;</div>';
+        html += '<div class="pv-match-count" style="background:'+c.bg+';">'+mc+' Match</div>';
+        html += '</div>';
+        league.matches.forEach(function(m, mi){
+            var cls = mi%2===0 ? 'even' : 'odd';
+            var l1  = getLogoUrl(m.team1Clean), l2 = getLogoUrl(m.team2Clean);
+            var p   = autoPred(m);
+            var hcpAc = (p.hcpClass==='green') ? 'pv-ac-green' : (p.hcpClass==='red' ? 'pv-ac-red' : 'pv-ac-gold');
+            var ouAc  = (p.ouClass==='green') ? 'pv-ac-green' : 'pv-ac-red';
+            var ox2Ac = (p.ox2Class==='green') ? 'pv-ac-green' : 'pv-ac-gold';
+            var teamKey = (m.team1+' '+m.team2).toLowerCase();
+            html += '<div class="pv-match-card '+cls+'" data-teams="'+teamKey+'" onclick="pvToggleCard(this)">';
+            html += '<div class="pv-match-row">';
+            // Team kiri
+            html += '<div class="pv-team-side">';
+            html += '<div class="pv-box-image">';
+            html += '<img class="pv-logo" data-team="'+m.team1Clean.replace(/"/g,'&quot;')+'" src="'+l1+'" alt="'+m.team1+'" onerror="bolaReportCrash(this)"/>';
+            html += '<img class="pv-char" src="'+l1+'" alt=""/>';
+            html += '</div>';
+            html += '<span class="pv-team-name">'+m.team1+'</span></div>';
+            // Score center
+            html += '<div class="pv-score-center">';
+            html += '<div class="pv-score-num" style="color:'+c.bg+';text-shadow:0 0 8px '+c.bg+';">'+m.score1+' : '+m.score2+'</div>';
+            html += '<div class="pv-match-dt" style="color:'+c.bg+';">'+m.date+'<br/>'+m.time+'</div>';
+            html += '</div>';
+            // Team kanan
+            html += '<div class="pv-team-side right">';
+            html += '<div class="pv-box-image">';
+            html += '<img class="pv-logo" data-team="'+m.team2Clean.replace(/"/g,'&quot;')+'" src="'+l2+'" alt="'+m.team2+'" onerror="bolaReportCrash(this)"/>';
+            html += '<img class="pv-char" src="'+l2+'" alt=""/>';
+            html += '</div>';
+            html += '<span class="pv-team-name">'+m.team2+'</span></div>';
+            html += '<div class="pv-chev" style="color:'+c.bg+'66;">&#9660;</div>';
+            html += '</div>';
+            // Pred panel
+            html += '<div class="pv-pred-panel">';
+            html += '<div class="pv-pred-grid">';
+            html += '<div class="pv-pred-col '+hcpAc+'"><span class="pv-pred-title">Handicap</span><span class="pv-pred-answer '+(p.hcpClass||'')+'">'+p.hcp+'</span><span class="pv-pred-note">'+p.hcpNote+'</span></div>';
+            html += '<div class="pv-pred-col '+ouAc+'"><span class="pv-pred-title">Over/Under</span><span class="pv-pred-answer '+(p.ouClass||'')+'">'+p.ou+'</span><span class="pv-pred-note">'+p.ouNote+'</span></div>';
+            html += '<div class="pv-pred-col '+ox2Ac+'"><span class="pv-pred-title">1X2</span><span class="pv-pred-answer '+(p.ox2Class||'')+'">'+p.ox2+'</span><span class="pv-pred-note">'+p.ox2Note+'</span></div>';
+            html += '<div class="pv-pred-col pv-ac-gold"><span class="pv-pred-title">Skor Akurat</span><span class="pv-pred-answer" style="color:'+ltr+';">'+p.acc+'</span><span class="pv-pred-note">Top Pick</span></div>';
+            html += '</div></div>';
+            html += '</div>'; // pv-match-card
+        });
+        html += '</div></div>';
+    });
+
+    if (tablesDiv) tablesDiv.innerHTML = html;
+}
+
+function updateIframePreview(leagues) {
+    // tidak dipakai lagi — renderPreview langsung ke DOM
+}
+
+// (renderPreview sudah didefinisikan di atas — iframe based)
+
+
+// ── AUTO PREDICTION GENERATOR ────────────────────────────
+function autoPred(m) {
+    var s1 = parseInt(m.score1)||0, s2 = parseInt(m.score2)||0;
+    var hasScore = (m.score1 !== '-' && m.score2 !== '-');
+    var total = s1 + s2;
+    var diff  = Math.abs(s1 - s2);
+    var homeWin = s1 > s2, awayWin = s2 > s1;
+
+    var hcp, hcpClass, hcpNote;
+    if (!hasScore) {
+        // Belum ada skor → prediksi awal: home unggul tipis
+        hcp = m.team1+' -0.5'; hcpClass = 'green'; hcpNote = 'Prediksi Awal';
+    } else if (s1 === s2) {
+        hcp = 'Draw / AH 0'; hcpClass = ''; hcpNote = 'Imbang ketat';
+    } else if (homeWin) {
+        hcp = diff >= 2 ? m.team1+' -'+(diff-1)+'.5' : m.team1+' -0.5';
+        hcpClass = 'green'; hcpNote = 'Home unggul';
+    } else {
+        hcp = diff >= 2 ? m.team2+' -'+(diff-1)+'.5' : m.team2+' -0.5';
+        hcpClass = 'green'; hcpNote = 'Away unggul';
+    }
+
+    // === O/U: Line dari skor, tapi Over/Under random ===
+    var ouLine = total <= 2 ? '2.5' : (total <= 4 ? '3.5' : '4.5');
+    // Seed dari nama kedua tim + tanggal → random tapi konsisten per match per hari
+    var _ouSeed = (m.team1 + m.team2 + new Date().toDateString()).split('').reduce(function(a,c){ return a + c.charCodeAt(0); }, 0);
+    var ouSide  = _ouSeed % 2 === 0 ? 'Over' : 'Under';
+    var ouPick  = ouSide + ' ' + ouLine;
+    var ouClass = ouSide === 'Over' ? 'green' : 'red';
+    var _ouNotes = {'Over 2.5':'Laga Terbuka','Over 3.5':'Kedua Tim Menyerang','Over 4.5':'Banyak Gol','Under 2.5':'Laga Ketat','Under 3.5':'Pertahanan Solid','Under 4.5':'Tempo Rendah'};
+    var ouNote  = _ouNotes[ouPick] || 'Analisis AI';
+
+    var ox2, ox2Class, ox2Note;
+    if (homeWin)      { ox2='Home Win'; ox2Class='green'; ox2Note=m.team1; }
+    else if (awayWin) { ox2='Away Win'; ox2Class='green'; ox2Note=m.team2; }
+    else              { ox2='Draw';     ox2Class='';       ox2Note='Hasil imbang'; }
+
+    return {hcp:hcp, hcpClass:hcpClass, hcpNote:hcpNote,
+            ou:ouPick, ouClass:ouClass, ouNote:ouNote,
+            ox2:ox2, ox2Class:ox2Class, ox2Note:ox2Note,
+            acc:m.score1+' - '+m.score2};
+}
+
+// ── BUILD OUTPUT HTML ─────────────────────────────────────
+function buildOutputHTML(leagues) {
+    var autoDate = document.getElementById('autoDate').textContent;
+    var c   = getColors();
+    var ltr = adjustColor(c.bg, 30);
+    var drk = adjustColor(c.bg, -20);
+    var cfg = SITES[currentSite];
+
+    // ── Hitung stats ──
+    var totalMatches = leagues.reduce(function(a,l){ return a+l.matches.length; }, 0);
+    var totalLeagues = leagues.length;
+
+    // ── Mbappé GIF URL (bisa di-override per site kalau mau) ──
+    var mbappeGif = cfg.mbappeGif || 'https://photoku.io/images/2026/05/31/giffmbappee-finall.gif';
+
+    var blocks = '';
+    leagues.forEach(function(league){
+        var enc = league.name.replace(/"/g,'&quot;');
+        var mc  = league.matches.length;
+        blocks += '<div class="league-block" data-league="'+enc+'">\n';
+        blocks += '<div class="league-inner">\n';
+        blocks += '<div class="league-crown">\n';
+        blocks += '  <div class="crown-name">&#127942; '+league.name+' &#127942;</div>\n';
+        blocks += '  <div class="match-count">'+mc+' Match</div>\n';
+        blocks += '</div>\n';
+        league.matches.forEach(function(m, mi){
+            var cls = mi%2===0 ? 'even' : 'odd';
+            var l1  = getLogoUrl(m.team1Clean), l2 = getLogoUrl(m.team2Clean);
+            var p   = autoPred(m);
+            var teamKey = (m.team1+' '+m.team2).toLowerCase();
+            // accent classes untuk pred-col
+            var hcpAccent = (p.hcpClass==='green') ? 'accent-green' : (p.hcpClass==='red' ? 'accent-red' : 'accent-gold');
+            var ouAccent  = (p.ouClass==='green') ? 'accent-green' : 'accent-red';
+            var ox2Accent = (p.ox2Class==='green') ? 'accent-green' : 'accent-gold';
+            blocks += '<div class="match-card '+cls+'" data-teams="'+teamKey+'" onclick="toggleCard(this)">\n';
+            blocks += '<div class="match-row">\n';
+            // Team kiri — box-image dengan character hover
+            blocks += '  <div class="team-side left">\n';
+            blocks += '    <div class="box-image">\n';
+            blocks += '      <img class="team-logo" src="'+l1+'" alt="'+m.team1+'"/>\n';
+            blocks += '      <img class="character" src="'+l1+'" alt=""/>\n';
+            blocks += '    </div>\n';
+            blocks += '    <span class="team-name">'+m.team1+'</span>\n';
+            blocks += '  </div>\n';
+            blocks += '  <div class="score-center"><div class="score-num">'+m.score1+' : '+m.score2+'</div><div class="match-dt">'+m.date+'<br/>'+m.time+'</div></div>\n';
+            // Team kanan — box-image dengan character hover
+            blocks += '  <div class="team-side right">\n';
+            blocks += '    <div class="box-image">\n';
+            blocks += '      <img class="team-logo" src="'+l2+'" alt="'+m.team2+'"/>\n';
+            blocks += '      <img class="character" src="'+l2+'" alt=""/>\n';
+            blocks += '    </div>\n';
+            blocks += '    <span class="team-name">'+m.team2+'</span>\n';
+            blocks += '  </div>\n';
+            blocks += '  <div class="chev"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></div>\n';
+            blocks += '</div>\n';
+            blocks += '<div class="pred-panel"><div class="pred-inner"><div class="pred-grid">\n';
+            blocks += '  <div class="pred-col '+hcpAccent+'"><span class="col-title">Handicap</span><span class="col-answer '+p.hcpClass+'">'+p.hcp+'</span><span class="col-note">'+p.hcpNote+'</span></div>\n';
+            blocks += '  <div class="pred-col '+ouAccent+'"><span class="col-title">Over / Under</span><span class="col-answer '+p.ouClass+'">'+p.ou+'</span><span class="col-note">'+p.ouNote+'</span></div>\n';
+            blocks += '  <div class="pred-col '+ox2Accent+'"><span class="col-title">1X2</span><span class="col-answer '+p.ox2Class+'">'+p.ox2+'</span><span class="col-note">'+p.ox2Note+'</span></div>\n';
+            blocks += '  <div class="pred-col accent-gold"><span class="col-title">Skor Akurat</span><span class="col-answer">'+p.acc+'</span><span class="col-note">Top Pick</span></div>\n';
+            blocks += '</div></div></div>\n';
+            blocks += '</div>\n';
+        });
+        blocks += '</div>\n</div>\n\n';
+    });
+
+    var leagueOpts = leagues.map(function(l){
+        return '<option value="'+l.name.replace(/"/g,'&quot;')+'">&#127942; '+l.name+'</option>';
+    }).join('\n');
+
+    // Build the JS block as a single string to avoid quote escaping issues
+    var jsBlock = [
+        'var openCard=null;',
+        'function toggleCard(card){',
+        '  if(openCard&&openCard!==card)openCard.classList.remove("open");',
+        '  card.classList.toggle("open");',
+        '  openCard=card.classList.contains("open")?card:null;',
+        '}',
+        'function filterLeague(val){',
+        '  document.getElementById("teamSearch").value="";',
+        '  document.querySelectorAll(".match-card").forEach(function(c){c.classList.remove("hidden");});',
+        '  document.querySelectorAll(".league-block").forEach(function(b){',
+        '    b.style.display=(val==="all"||b.dataset.league===val)?"":"none";',
+        '  });',
+        '}',
+        'function searchTeam(val){',
+        '  document.getElementById("leagueFilter").value="all";',
+        '  document.querySelectorAll(".league-block").forEach(function(b){b.style.display="";});',
+        '  var q=val.trim().toLowerCase();',
+        '  document.querySelectorAll(".match-card").forEach(function(c){',
+        '    if(!q){c.classList.remove("hidden");return;}',
+        '    var teams=c.dataset.teams||"";',
+        '    c.classList.toggle("hidden",teams.indexOf(q)===-1);',
+        '  });',
+        '  document.querySelectorAll(".league-block").forEach(function(b){',
+        '    var visible=b.querySelectorAll(".match-card:not(.hidden)").length;',
+        '    b.style.display=visible?"":"none";',
+        '  });',
+        '}'
+    ].join('\n');
+
+    return '<!-- Generated by '+cfg.name+' Generator -->\n'
++'<style>\n'
++'*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}\n'
++':root{--g:'+c.bg+';--gl:'+ltr+';--g2:'+drk+';--gd:'+c.bg+'66;--gs:'+c.bg+'22;--cr:'+c.txt+';--bg:#000000;--bg2:#0d0d0d;}\n'
++'body{background:var(--bg);font-family:\'Poppins\',sans-serif;color:var(--cr);min-height:100vh;overflow-x:hidden;}\n'
+
+// ── SITE LOGO header: Mbappé kiri | Logo tengah | Mbappé kanan ──
++'.site-logo{\n'
++'  display:flex;\n'
++'  align-items:center;\n'
++'  justify-content:space-between;\n'
++'  margin:22px auto 10px;\n'
++'  width:95%;\n'
++'  padding:0;\n'
++'  gap:4px;\n'
++'}\n'
++'.mbappe-gif{\n'
++'  width:22vw;\n'
++'  max-width:110px;\n'
++'  min-width:56px;\n'
++'  height:auto;\n'
++'  object-fit:contain;\n'
++'  flex-shrink:0;\n'
++'  filter:drop-shadow(0 0 18px var(--g));\n'
++'  transition:transform .35s ease,filter .35s ease;\n'
++'  cursor:pointer;\n'
++'}\n'
++'.mbappe-gif.flip{transform:scaleX(-1);}\n'
++'.mbappe-gif.flip:hover{transform:scaleX(-1) scale(1.1);filter:drop-shadow(0 0 28px var(--gl)) brightness(1.2);}\n'
++'.mbappe-gif:not(.flip):hover{transform:scale(1.1);filter:drop-shadow(0 0 28px var(--gl)) brightness(1.2);}\n'
++'.site-logo img.logo-main{\n'
++'  flex:1;\n'
++'  min-width:0;\n'
++'  max-width:275px;\n'
++'  width:100%;\n'
++'  object-fit:contain;\n'
++'  filter:drop-shadow(0 0 22px var(--g));\n'
++'  z-index:1;\n'
++'  display:block;\n'
++'  margin:0 auto;\n'
++'  padding:0 4px;\n'
++'}\n'
++'@media(max-width:380px){\n'
++'  .mbappe-gif{width:20vw;min-width:48px;}\n'
++'  .site-logo img.logo-main{max-width:140px;}\n'
++'}\n'
+
+// ── DATE DISPLAY ──
++'.date-display{\n'
++'  display:flex;align-items:center;justify-content:space-between;\n'
++'  margin:14px auto;\n'
++'  width:90%;\n'
++'  padding:8px 10px;\n'
++'  border:3px solid var(--g);\n'
++'  border-radius:15px;\n'
++'  background:linear-gradient(180deg,#1a1a1a,#000);\n'
++'  box-shadow:0 0 20px var(--gd);\n'
++'  overflow:hidden;\n'
++'}\n'
++'.date-text{\n'
++'  flex:1;text-align:center;\n'
++'  font-family:\'Cinzel\',serif;\n'
++'  font-size:clamp(11px,2.8vw,16px);\n'
++'  font-weight:700;color:var(--g);\n'
++'  text-shadow:0 0 14px var(--gd);\n'
++'  letter-spacing:2px;\n'
++'  word-break:break-word;\n'
++'  padding:0 6px;\n'
++'}\n'
+
+// ── STATS BAR ──
++'.stats-bar{width:90%;margin:0 auto 14px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}\n'
++'.stat-item{background:linear-gradient(180deg,#1a1200,#0a0800);border:2px solid var(--gd);border-radius:13px;padding:11px 6px;text-align:center;}\n'
++'.stat-num{font-family:\'Cinzel\',serif;font-size:20px;font-weight:900;color:var(--g);line-height:1;display:block;}\n'
++'.stat-lbl{font-size:9px;font-weight:700;color:var(--g);opacity:.6;letter-spacing:1.2px;text-transform:uppercase;display:block;margin-top:3px;}\n'
+
+// ── MARQUEE ──
++'.marquee-wrap{overflow:hidden;white-space:nowrap;width:90%;margin:0 auto 16px;border:3px solid var(--g);border-radius:15px;background:linear-gradient(135deg,#1a1a1a,#000,#1a1a1a);padding:15px 0;box-shadow:0 0 20px var(--gd);}\n'
++'.marquee-inner{display:inline-block;animation:marquee 38s linear infinite;padding-left:100%;font-size:clamp(11px,2.8vw,14px);font-weight:900;color:var(--g);text-shadow:0 0 10px var(--gd);letter-spacing:1.5px;}\n'
++'@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}\n'
+
+// ── FILTER ──
++'.filter-wrap{width:90%;margin:0 auto 14px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}\n'
++'.filter-label{font-size:10px;color:var(--g);opacity:.75;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;display:block;}\n'
++'.select-box{position:relative;}\n'
++'.select-box::after{content:"\\25BC";position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--g);font-size:10px;pointer-events:none;}\n'
++'.fselect{width:100%;padding:9px 30px 9px 12px;background:rgba(0,0,0,.85);border:2px solid var(--gd);border-radius:10px;color:var(--g);font-size:12px;font-weight:700;appearance:none;-webkit-appearance:none;outline:none;cursor:pointer;}\n'
++'.fselect option{background:#0a0a0a;color:#fff;}\n'
++'.search-box{position:relative;}\n'
++'.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--gd);font-size:13px;pointer-events:none;}\n'
++'.fsearch{width:100%;padding:9px 12px 9px 30px;background:rgba(0,0,0,.85);border:2px solid var(--gd);border-radius:10px;color:var(--g);font-size:12px;font-weight:700;outline:none;font-family:\'Poppins\',sans-serif;}\n'
++'.fsearch::placeholder{color:var(--gd);font-weight:600;}\n'
++'.fsearch:focus{border-color:var(--g);}\n'
+
+// ── TAP HINT ──
++'.tap-hint{width:90%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;border:2px solid var(--g);border-radius:10px;background:var(--gs);}\n'
++'.hint-arrow{font-size:16px;display:inline-block;animation:arrowbounce 1s ease-in-out infinite;line-height:1;}\n'
++'@keyframes arrowbounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}\n'
++'.hint-text{font-family:\'Cinzel\',serif;font-size:clamp(9px,2.2vw,11px);font-weight:700;color:var(--g);opacity:.7;letter-spacing:1px;}\n'
+
+// ── LEAGUE BLOCK ──
++'.league-block{width:90%;margin:0 auto 22px;border:3px solid var(--g);border-radius:15px;padding:5px;background:rgba(0,0,0,.5);box-shadow:0 0 20px var(--gd);}\n'
++'.league-inner{border-radius:10px;overflow:hidden;border:1px solid var(--gd);}\n'
++'.league-crown{background:linear-gradient(180deg,#1a1200,#0d0d0d);padding:8px 10px 6px;display:flex;align-items:center;justify-content:center;position:relative;border-bottom:1px solid var(--gs);overflow:hidden;}\n'
++'.league-crown::after{content:\'\';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.22),transparent);transform:skewX(-20deg);animation:crownshine 1.8s ease-in-out infinite;}\n'
++'@keyframes crownshine{0%{left:-120%}50%{left:130%}100%{left:130%}}\n'
++'.crown-name{font-family:\'Cinzel\',serif;font-size:clamp(9px,2.4vw,12px);font-weight:900;color:var(--g);letter-spacing:2px;text-transform:uppercase;text-align:center;}\n'
++'.match-count{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--g);color:#000;font-family:\'Cinzel\',serif;font-size:8px;font-weight:900;padding:2px 8px;border-radius:20px;white-space:nowrap;}\n'
++'.match-card{border-bottom:1px solid #2a2a2a;cursor:pointer;user-select:none;}\n'
++'.match-card:last-child{border-bottom:none;}\n'
++'.match-card.hidden{display:none;}\n'
++'.match-row{display:flex;align-items:center;padding:10px;transition:background .2s;}\n'
++'.match-card.even .match-row{background:linear-gradient(180deg,#3a3a3a,#2d2d2d);}\n'
++'.match-card.odd  .match-row{background:linear-gradient(180deg,#2d2d2d,#3a3a3a);}\n'
++'.match-card.open .match-row{background:linear-gradient(180deg,#2a1e00,#1a1200)!important;}\n'
++'.match-card:not(.open) .match-row:hover{background:linear-gradient(135deg,var(--g),var(--gl))!important;}\n'
++'.match-card:not(.open) .match-row:hover .team-name,.match-card:not(.open) .match-row:hover .score-num,.match-card:not(.open) .match-row:hover .match-dt{color:#000!important;text-shadow:none!important;}\n'
++'.match-card:not(.open) .match-row:hover .chev svg{color:#000;}\n'
++'.team-side{flex:1;display:flex;align-items:center;gap:7px;min-width:0;}\n'
++'.team-side.right{flex-direction:row-reverse;}\n'
+
+// ── BOX-IMAGE dengan character hover ──
++'.box-image{position:relative;width:38px;height:38px;flex-shrink:0;}\n'
++'.box-image img.team-logo{width:38px;height:38px;object-fit:contain;display:block;filter:drop-shadow(0 0 4px rgba(0,0,0,.7));transition:transform .4s ease,filter .4s ease;position:relative;z-index:1;}\n'
++'.box-image img.character{display:none !important;}\n'
++'.match-row:hover .box-image img.team-logo{transform:scale(1.45);filter:drop-shadow(0 0 14px var(--g)) drop-shadow(0 0 28px var(--gl)) brightness(1.2);}\n'
++'.match-row:hover .box-image img.character{display:none !important;}\n'
++'.box-image::before{content:\'\';display:none;}\n'
+
++'.team-name{font-size:clamp(8px,2vw,11px);font-weight:700;color:var(--cr);line-height:1.3;word-break:break-word;}\n'
++'.team-side.right .team-name{text-align:right;}\n'
++'.score-center{flex-shrink:0;width:80px;text-align:center;padding:0 4px;}\n'
++'.score-num{font-family:\'Cinzel\',serif;font-size:clamp(15px,4vw,20px);font-weight:900;color:var(--g);text-shadow:0 0 10px var(--gd);letter-spacing:3px;line-height:1;margin-bottom:4px;}\n'
++'.match-dt{font-size:clamp(8px,1.8vw,10px);font-weight:700;color:var(--g);opacity:.8;line-height:1.5;}\n'
++'.chev{width:18px;flex-shrink:0;margin-left:4px;display:flex;align-items:center;justify-content:center;}\n'
++'.chev svg{transition:transform .25s;color:var(--gd);}\n'
++'.match-card.open .chev svg{transform:rotate(180deg);color:var(--g);}\n'
++'@media(min-width:600px){.crown-name{font-size:15px;}.team-name{font-size:13px;}.score-num{font-size:22px;}.match-dt{font-size:11px;}.score-center{width:100px;}}\n'
+
+// ── PRED PANEL dengan accent bars ──
++'.pred-panel{overflow:hidden;max-height:0;transition:max-height .32s ease;}\n'
++'.match-card.open .pred-panel{max-height:220px;}\n'
++'.pred-inner{background:#080500;border-top:1px solid var(--gs);padding:10px 12px;}\n'
++'.pred-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;}\n'
++'@media(max-width:440px){.pred-grid{grid-template-columns:repeat(2,1fr);}}\n'
++'.pred-col{background:rgba(212,175,55,.05);border:1px solid var(--gs);border-radius:9px;padding:8px 6px;text-align:center;position:relative;overflow:hidden;}\n'
++'.pred-col::before{content:\'\';position:absolute;top:0;left:0;right:0;height:3px;}\n'
++'.pred-col.accent-green::before{background:linear-gradient(90deg,transparent,#00d166,transparent);}\n'
++'.pred-col.accent-red::before{background:linear-gradient(90deg,transparent,#ff5555,transparent);}\n'
++'.pred-col.accent-gold::before{background:linear-gradient(90deg,transparent,var(--gl),transparent);}\n'
++'.col-title{font-family:\'Cinzel\',serif;font-size:11px;font-weight:900;color:var(--g);letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px;opacity:.7;}\n'
++'.col-answer{font-family:\'Cinzel\',serif;font-size:clamp(13px,3.8vw,18px);font-weight:900;color:var(--gl);letter-spacing:.5px;line-height:1.3;display:block;}\n'
++'.col-answer.green{color:#00d166;}\n'
++'.col-answer.red{color:#ff5555;}\n'
++'.col-note{font-family:\'Cinzel\',serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.65);display:block;margin-top:4px;letter-spacing:.3px;line-height:1.3;}\n'
++'</style>\n\n'
++'<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">\n\n'
+
+// ── HEADER: Mbappé kiri | Logo tengah | Mbappé kanan ──
++'<header class="site-logo">\n'
++'  <img class="mbappe-gif flip" src="'+mbappeGif+'" alt="Mbappe"/>\n'
++'  <img class="logo-main" src="'+cfg.logo+'" alt="'+cfg.name+'"/>\n'
++'  <img class="mbappe-gif" src="'+mbappeGif+'" alt="Mbappe"/>\n'
++'</header>\n\n'
+
+// ── DATE DISPLAY tanpa karakter ──
++'<div class="date-display">\n'
++'  <span class="date-text">&#128197; '+autoDate+'</span>\n'
++'</div>\n\n'
+
+// ── STATS BAR ──
++'<div class="stats-bar">\n'
++'  <div class="stat-item"><span class="stat-num">'+totalLeagues+'</span><span class="stat-lbl">Liga</span></div>\n'
++'  <div class="stat-item"><span class="stat-num">'+totalMatches+'</span><span class="stat-lbl">Pertandingan</span></div>\n'
++'  <div class="stat-item"><span class="stat-num">100%</span><span class="stat-lbl">Terupdate</span></div>\n'
++'</div>\n\n'
+
+// ── MARQUEE ──
++'<div class="marquee-wrap"><div class="marquee-inner">'+cfg.marquee+'&nbsp;&nbsp;&nbsp;&nbsp;'+cfg.marquee+'</div></div>\n\n'
+
+// ── FILTER ──
++'<div class="filter-wrap">\n'
++'  <div>\n'
++'    <span class="filter-label">&#127942; Pilih Liga</span>\n'
++'    <div class="select-box">\n'
++'      <select class="fselect" id="leagueFilter" onchange="filterLeague(this.value)">\n'
++'        <option value="all">Semua Liga</option>\n'
++leagueOpts
++'\n      </select>\n'
++'    </div>\n'
++'  </div>\n'
++'  <div>\n'
++'    <span class="filter-label">&#128269; Cari Tim</span>\n'
++'    <div class="search-box">\n'
++'      <span class="search-icon">&#9917;</span>\n'
++'      <input class="fsearch" id="teamSearch" type="text" placeholder="Nama tim..." oninput="searchTeam(this.value)"/>\n'
++'    </div>\n'
++'  </div>\n'
++'</div>\n\n'
+
+// ── TAP HINT ──
++'<div class="tap-hint">\n'
++'  <span class="hint-arrow">&#11015;</span>\n'
++'  <span class="hint-text">Klik pertandingan di bawah untuk melihat prediksi</span>\n'
++'  <span class="hint-arrow">&#11015;</span>\n'
++'</div>\n\n'
+
++blocks
++'<script>\n'
++jsBlock+'\n'
++'</scr'+'ipt>\n';
+}
+
+
+// ── AUTO FETCH ENGINE ──────────────────────────────────────────────────────────
+var autoRefOn = true;
+var cdSec = 60;
+var cdTimer = null;
+var fetchCacheHash = null;
+var REFRESH_SECS = 60;
+var CD_CIRC = 2 * Math.PI * 14;
+
+var FETCH_PROXIES = [
+    { name:'Hexlet',       build:function(u){return 'https://allorigins.hexlet.app/get?disableCache=true&url='+encodeURIComponent(u);}, extract:async function(r){var j=await r.json();return j.contents||'';}},
+    { name:'CodeTabs',     build:function(u){return 'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u);},               extract:async function(r){return r.text();}},
+    { name:'corsproxy.io', build:function(u){return 'https://corsproxy.io/?'+encodeURIComponent(u);},                                 extract:async function(r){return r.text();}},
+    { name:'ThingProxy',   build:function(u){return 'https://thingproxy.freeboard.io/fetch/'+u;},                                      extract:async function(r){return r.text();}},
+    { name:'AllOrigins',   build:function(u){return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u);},                     extract:async function(r){return r.text();}},
+    { name:'corsproxy.org',build:function(u){return 'https://corsproxy.org/?'+encodeURIComponent(u);},                                extract:async function(r){return r.text();}}
+];
+
+async function fetchWithFallback(url) {
+    for (var i = 0; i < FETCH_PROXIES.length; i++) {
+        var p = FETCH_PROXIES[i];
+        try {
+            setFsStatus('loading', '[' + (i+1) + '/' + FETCH_PROXIES.length + '] Mencoba ' + p.name + '...');
+            var ctrl = new AbortController();
+            var tout = setTimeout(function(){ ctrl.abort(); }, 8000);
+            var resp = await fetch(p.build(url), { signal: ctrl.signal, cache: 'no-store' });
+            clearTimeout(tout);
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            var html = await p.extract(resp);
+            if (!html || html.length < 100) throw new Error('Respons kosong');
+            console.log('OK via ' + p.name);
+            return html;
+        } catch(e) { console.warn('FAIL ' + p.name + ':', e.message); }
+    }
+    throw new Error('Semua proxy gagal');
+}
+
+function simpleHash(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h = h & h; }
+    return h.toString(16);
+}
+
+// MATCH_RE: dd/mm HH:mm WIB TEAM1 vs TEAM2 SKOR
+var MATCH_RE_FETCH = /^(\d{1,2}[\/\-]\d{1,2})\s+(\d{1,2}[:.]\d{2})(?:\s*WIB)?\s+(.+?)\s+vs?\.?\s+(.+?)\s+(\d+\s*[:\-\u2013\u2014]\s*\d+)\s*$/i;
+
+function preNorm(line) {
+    return line.trim()
+        .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ').replace(/&#160;/g, ' ')
+        .replace(/[\u2013\u2014]/g, '-')
+        .replace(/\s+/g, ' ').trim();
+}
+
+// Parser khusus accordion shortq.xyz (Bootstrap collapse)
+// Struktur: <div id="accordion_XXXX_content_N" class="collapse ...">
+//             <div class="card-body">...match lines...</div>
+//           </div>
+// ── PARSER: shortq.xyz ────────────────────────────────────
+// Struktur shortq.xyz (Bootstrap accordion):
+//   <button data-target="#accordion_XXXX_content_N">PREDIKSI BOLA ...</button>
+//   <div id="accordion_XXXX_content_N" class="collapse show">
+//     <div class="card-body">...isi prediksi...</div>
+//   </div>
+//
+// Strategi TEPAT:
+//   1. Cari semua button[data-target] yang teksnya mengandung "PREDIKSI"
+//   2. Ambil id panel dari data-target (misal "#accordion_2256_content_1")
+//   3. Cari elemen dengan id itu di DOM
+//   4. Ambil .card-body di dalamnya
+//   5. Urutkan sesuai urutan button di DOM (tidak loncat-loncat)
+function parseRawHtml(html) {
+    var doc = (new DOMParser()).parseFromString(html, 'text/html');
+    var result = [];
+    var targetBodies = [];
+
+    // ── STEP 1: Cari semua button accordion ──────────────────────────
+    // Selector: button dengan data-target (Bootstrap 4) atau data-bs-target (Bootstrap 5)
+    var buttons = doc.querySelectorAll(
+        'button[data-target], button[data-bs-target], a[data-target], a[data-bs-target]'
+    );
+
+    buttons.forEach(function(btn) {
+        var btnText = (btn.textContent || btn.innerText || '').trim();
+
+        // Filter: hanya yang teksnya mengandung "PREDIKSI"
+        if (!/PREDIKSI/i.test(btnText) || /JADWAL/i.test(btnText)) return;
+
+        // Ambil target panel ID dari attribute
+        var targetId = btn.getAttribute('data-target') || btn.getAttribute('data-bs-target') || '';
+        // Bersihkan '#' di depan
+        targetId = targetId.replace(/^#/, '');
+        if (!targetId) return;
+
+        // Cari panel di DOM berdasarkan ID
+        var panel = doc.getElementById(targetId);
+        if (!panel) return;
+
+        // Ambil .card-body di dalam panel
+        var body = panel.querySelector('.card-body');
+        if (!body) {
+            // Bootstrap 5: .accordion-body
+            body = panel.querySelector('.accordion-body');
+        }
+        if (!body) {
+            // Fallback: panel itu sendiri kalau langsung berisi konten
+            body = panel;
+        }
+
+        targetBodies.push({ btn: btnText, body: body });
+        console.log('PREDIKSI panel ditemukan: "' + btnText.substring(0, 40) + '" -> #' + targetId);
+    });
+
+    // ── STEP 2: Fallback kalau tidak ada button PREDIKSI ditemukan ───
+    if (targetBodies.length === 0) {
+        // Coba ambil semua .collapse.show .card-body
+        var openBodies = doc.querySelectorAll('.collapse.show .card-body');
+        if (openBodies.length) {
+            openBodies.forEach(function(b){ targetBodies.push({ btn: '', body: b }); });
+            console.log('Fallback: ' + targetBodies.length + ' panel terbuka');
+        }
+    }
+
+    // ── STEP 3: Fallback Bootstrap 5 ─────────────────────────────────
+    if (targetBodies.length === 0) {
+        var bs5 = doc.querySelectorAll('.accordion-collapse.show .accordion-body');
+        if (bs5.length) {
+            bs5.forEach(function(b){ targetBodies.push({ btn: '', body: b }); });
+        }
+    }
+
+    // ── STEP 4: Fallback total ────────────────────────────────────────
+    if (targetBodies.length === 0) {
+        console.log('Tidak ada panel PREDIKSI, pakai generic parser');
+        return parseGenericText(doc);
+    }
+
+    // ── STEP 5: Ekstrak baris dari setiap panel (urut sesuai DOM) ────
+    targetBodies.forEach(function(item) {
+        var raw = item.body.innerHTML || '';
+
+        // Normalize: semua line-break HTML → \n
+        raw = raw
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/<\/p>/gi, '\n').replace(/<p[^>]*>/gi, '\n')
+            .replace(/<\/li>/gi, '\n').replace(/<li[^>]*>/gi, '\n')
+            .replace(/<\/div>/gi, '\n').replace(/<div[^>]*>/gi, '\n')
+            .replace(/<[^>]+>/g, ' ');
+
+        var lines = raw.split('\n');
+        lines.forEach(function(line) {
+            var clean = preNorm(line);
+            if (!clean || clean.length < 3) return;
+
+            // Baris match: dd/mm HH:mm [WIB] Tim1 vs Tim2 Skor
+            if (MATCH_RE_FETCH.test(clean)) {
+                result.push(clean);
+                return;
+            }
+
+            // Nama liga: bukan URL / noise / angka murni
+            var isNoise = /https?:\/\/|www\.|@/i.test(clean)
+                || /^\d+$/.test(clean)
+                || clean.length > 100
+                || /klik|login|daftar|register|promo|bonus|copyright|shortq/i.test(clean)
+                || /\bv\.?s\.?\b/i.test(clean)
+                || /^\d/.test(clean);
+
+            if (!isNoise && /[A-Za-z]/.test(clean)) {
+                var up = clean.toUpperCase();
+                var last = result.length > 0 ? result[result.length - 1] : '';
+                if (last !== up) result.push(up);
+            }
+        });
+    });
+
+    // ── STEP 6: Cek ada match, kalau tidak → generic ─────────────────
+    var hasMatch = result.some(function(l){ return MATCH_RE_FETCH.test(l); });
+    if (!hasMatch) {
+        console.log('Tidak ada baris match ditemukan, pakai generic parser');
+        return parseGenericText(doc);
+    }
+
+    // ── STEP 7: Deduplicate berurutan ─────────────────────────────────
+    var clean = [];
+    result.forEach(function(l) {
+        if (!l.trim()) return;
+        if (clean.length > 0 && clean[clean.length - 1] === l) return;
+        clean.push(l);
+    });
+
+    console.log('Parser selesai: ' + clean.length + ' baris dari ' + targetBodies.length + ' panel PREDIKSI');
+    return clean;
+}
+
+// Generic text parser (fallback)
+function parseGenericText(doc) {
+    ['script','style','nav','header','footer','button','a','img','noscript','iframe','form'].forEach(function(tag){
+        doc.querySelectorAll(tag).forEach(function(el){ el.remove(); });
+    });
+    var text = (doc.body && (doc.body.innerText || doc.body.textContent)) || '';
+    var allLines = text.split(/\r?\n/).map(function(l){ return preNorm(l); }).filter(function(l){ return l.length > 1; });
+    var NOISE_RE = /klik|disini|whatsapp|telegram|instagram|copyright|privacy|verified|https?:|www\.|@/i;
+    // PENTING: ambil HANYA section PREDIKSI (skip section JADWAL berisi angka handicap)
+    var startIdx = -1;
+    for (var i = 0; i < allLines.length; i++) {
+        if (!/PREDIKSI\s*BOLA/i.test(allLines[i])) continue;
+        if (/\bv\.?s\.?\b/i.test(allLines[i])) continue;
+        for (var j = i + 1; j < allLines.length; j++) { if (MATCH_RE_FETCH.test(allLines[j])) { startIdx = i; break; } }
+    }
+    if (startIdx >= 0) allLines = allLines.slice(startIdx + 1);
+    // Jika section PREDIKSI ketemu, langsung capture supaya header liga pertama tidak hilang
+    var result = []; var capturing = (startIdx >= 0); var lastWasLeague = false;
+    allLines.forEach(function(line) {
+        var isMatch = MATCH_RE_FETCH.test(line);
+        if (!capturing && isMatch) capturing = true;
+        if (!capturing) return;
+        if (isMatch) { result.push(line); lastWasLeague = false; return; }
+        var isNoise = NOISE_RE.test(line) || /^\d+$/.test(line) || line.length > 90 || /\bv\.?s\.?\b/i.test(line) || /^\d/.test(line);
+        var isLeague = !isNoise && line.length >= 3 && /[A-Za-z]/.test(line);
+        if (isLeague && !lastWasLeague) {
+            var up = line.toUpperCase();
+            if (result.length === 0 || result[result.length-1] !== up) result.push(up);
+            lastWasLeague = true;
+        } else if (!isLeague) { lastWasLeague = false; }
+    });
+    return result;
+}
+
+function countFetchStats(lines) {
+    var lg = 0, mt = 0;
+    lines.forEach(function(l) {
+        if (MATCH_RE_FETCH.test(preNorm(l))) mt++;
+        else if (l.length > 2 && l.length < 90) lg++;
+    });
+    return { lg: lg, mt: mt };
+}
+
+function setFsStatus(state, text) {
+    var dot = document.getElementById('fsDot');
+    if (dot) dot.className = 'fs-dot ' + state;
+    var st = document.getElementById('fsStatusText');
+    if (st) st.textContent = text;
+}
+
+async function doFetch() {
+    var urlEl = document.getElementById('fetchUrl');
+    var url = urlEl ? urlEl.value.trim() : 'https://shortq.xyz/prediksibola';
+    if (!url) return;
+
+    var btn = document.getElementById('btnFetch');
+    if (btn) { btn.disabled = true; btn.textContent = '...'; }
+    var badge = document.getElementById('newDataBadge');
+    if (badge) badge.classList.remove('show');
+
+    try {
+        var raw = await fetchWithFallback(url);
+        var lines = parseRawHtml(raw);
+        var combined = lines.join('\n');
+        var newHash = simpleHash(combined);
+
+        if (newHash !== fetchCacheHash) {
+            fetchCacheHash = newHash;
+            var inputEl = document.getElementById('inputText');
+            if (inputEl) inputEl.value = combined;
+            if (badge) {
+                badge.classList.add('show');
+                setTimeout(function(){ badge.classList.remove('show'); }, 8000);
+            }
+            var stats = countFetchStats(lines);
+            var el;
+            el = document.getElementById('fsLeagues'); if (el) el.textContent = stats.lg || '-';
+            el = document.getElementById('fsMatches'); if (el) el.textContent = stats.mt || '-';
+            el = document.getElementById('fsCache');
+            if (el) { var n=new Date(); el.textContent=n.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'}); }
+            setFsStatus('ok', stats.mt + ' pertandingan, ' + stats.lg + ' liga dimuat');
+            showNotification(stats.mt + ' pertandingan berhasil dimuat!');
+            handleInput();
+        } else {
+            setFsStatus('ok', 'Data sama - tidak ada perubahan');
+        }
+        var now = new Date();
+        var lu = document.getElementById('fsLastUpdated');
+        if (lu) lu.textContent = 'Diperbarui: ' + now.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    } catch(err) {
+        setFsStatus('error', 'Gagal: ' + err.message);
+        showNotification('Fetch gagal: ' + err.message);
+    }
+
+    if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg> FETCH';
+    }
+}
+
+function updateCd() {
+    var ring = document.getElementById('cdRing');
+    var num  = document.getElementById('cdNum');
+    if (!ring || !num) return;
+    var offset = CD_CIRC * (1 - cdSec / REFRESH_SECS);
+    ring.style.strokeDashoffset = offset;
+    num.textContent = cdSec;
+    ring.style.stroke = cdSec <= 10 ? '#f59e0b' : 'var(--primary)';
+}
+function startCountdown() {
+    if (cdTimer) clearInterval(cdTimer);
+    cdSec = REFRESH_SECS; updateCd();
+    cdTimer = setInterval(function() {
+        cdSec--; updateCd();
+        if (cdSec <= 0) { cdSec = REFRESH_SECS; if (autoRefOn) doFetch(); }
+    }, 1000);
+}
+function toggleAutoRef() {
+    autoRefOn = document.getElementById('autoRefToggle').checked;
+    var lbl = document.getElementById('autoRefLabel');
+    if (lbl) lbl.textContent = autoRefOn ? 'ON' : 'OFF';
+    showNotification(autoRefOn ? 'Auto Refresh: ON' : 'Auto Refresh: OFF');
+}
+
+
+// ── INPUT HANDLER ─────────────────────────────────────────
+var debounceTimer = null;
+document.getElementById('inputText').addEventListener('input', function(){
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(handleInput, 500);
+});
+
+async function handleInput() {
+    var input = document.getElementById('inputText').value.trim();
+    if (!input) { resetUI(); return; }
+    var leagues = parseAll(input);
+    if (!leagues.length) return;
+    var allCleans = getAllCleans(leagues);
+    document.getElementById('totalLeagues').textContent = leagues.length;
+    document.getElementById('totalMatches').textContent = leagues.reduce(function(a,l){ return a+l.matches.length; }, 0);
+
+    // ★ FIX: Fetch logo DULU dari LOGO_DB, baru render
+    await fetchLogoBatch(allCleans);
+
+    // Render dengan logo yang sudah ada di cache
+    renderPreview(leagues);
+    document.getElementById('outputCode').textContent = buildOutputHTML(leagues);
+
+    // Hitung matched logos
+    var matched = allCleans.filter(function(n){
+        var v = logoCache[n.toLowerCase()];
+        return v && !(typeof v === 'string' && v.indexOf('data:image/svg+xml') === 0);
+    }).length;
+    document.getElementById('totalLogos').textContent = matched;
+    persistLogoCache();
+}
+function resetUI() {
+    document.getElementById('outputCode').textContent = 'Script HTML lengkap akan muncul di sini secara otomatis...';
+    var t = document.getElementById('pvTables');      if (t) t.innerHTML = '';
+    var e = document.getElementById('pvEmpty');       if (e) e.style.display = 'block';
+    var h = document.getElementById('pvTapHint');     if (h) h.style.display = 'none';
+    var sm = document.getElementById('pvStatMatch');  if (sm) sm.textContent = '0';
+    var sl = document.getElementById('pvStatLeague'); if (sl) sl.textContent = '0';
+    var lf = document.getElementById('pvLeagueFilter');
+    if (lf) { lf.innerHTML = '<option value="all">Semua Liga</option>'; }
+    var ts = document.getElementById('pvTeamSearch'); if (ts) ts.value = '';
+    ['totalLeagues','totalMatches','totalLogos'].forEach(function(id){
+        var el = document.getElementById(id); if (el) el.textContent = '0';
+    });
+    document.getElementById('fetchIndicator').classList.remove('active');
+}
+
+// ── COLOR PICKERS ─────────────────────────────────────────
+function initColorPickers() {
+    ['Background','Text','HeaderBg','MarqueeBg'].forEach(function(name){
+        var picker = document.getElementById('color'+name);
+        var text   = document.getElementById('color'+name+'Text');
+        picker.addEventListener('input', function(){ text.value=picker.value; updatePreviewColors(); reRenderIfHasData(); });
+        text.addEventListener('input', function(){ if(/^#[0-9A-F]{6}$/i.test(text.value)){ picker.value=text.value; updatePreviewColors(); reRenderIfHasData(); } });
+    });
+}
+function reRenderIfHasData() {
+    var input = document.getElementById('inputText').value.trim();
+    if (!input) return;
+    var leagues = parseAll(input);
+    if (!leagues.length) return;
+    document.getElementById('outputCode').textContent = buildOutputHTML(leagues);
+    renderPreview(leagues);
+}
+function updatePreviewColors() {
+    pvUpdateHeader();
+}
+function resetColors() {
+    var d = SITES[currentSite].defaultColors;
+    setColorValues(d.bg, d.txt, d.hd, d.mq);
+    updatePreviewColors(); reRenderIfHasData();
+    showNotification('✓ Warna direset ke default ' + SITES[currentSite].name + '!');
+}
+
+// ── DATE ──────────────────────────────────────────────────
+function generateAutoDate() {
+    var today    = new Date();
+    var tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    var d1  = today.toLocaleDateString('id-ID', {day:'numeric', month:'long'});
+    var d2  = tomorrow.toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    var str = d1 + ' - ' + d2;
+    document.getElementById('autoDate').textContent = str;
+    var dt = document.getElementById('pvDateText');
+    if (dt) dt.textContent = '📅 ' + str;
+}
+
+// ── COPY ──────────────────────────────────────────────────
+function copyToClipboard() {
+    var output = document.getElementById('outputCode').textContent;
+    if (output.startsWith('Script HTML')) { showNotification('⚠️ Belum ada script yang di-generate!'); return; }
+    try {
+        var ta = document.createElement('textarea');
+        ta.value = output;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0;';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select(); ta.setSelectionRange(0, output.length);
+        var ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) { showNotification('✓ Script ' + SITES[currentSite].name + ' berhasil dicopy!'); return; }
+    } catch(e) {}
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(output)
+            .then(function(){ showNotification('✓ Script ' + SITES[currentSite].name + ' berhasil dicopy!'); })
+            .catch(function(){ promptCopy(output); });
+    } else { promptCopy(output); }
+}
+function promptCopy(text) {
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    var box = document.createElement('div');
+    box.style.cssText = 'background:#1a1a1a;border:2px solid var(--primary);border-radius:12px;padding:24px;width:100%;max-width:640px;';
+    var info = document.createElement('p');
+    info.style.cssText = 'color:var(--primary);font-weight:700;margin-bottom:12px;font-size:14px;';
+    info.textContent = '📋 Tekan Ctrl+A lalu Ctrl+C untuk copy script:';
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'width:100%;height:220px;background:#000;color:#00ff88;font-size:11px;padding:10px;border:1px solid #333;border-radius:8px;resize:none;font-family:monospace;';
+    var btn = document.createElement('button');
+    btn.textContent = '✕ Tutup';
+    btn.style.cssText = 'margin-top:12px;padding:10px 24px;background:var(--primary);color:#000;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px;';
+    btn.onclick = function(){ document.body.removeChild(overlay); };
+    box.appendChild(info); box.appendChild(ta); box.appendChild(btn);
+    overlay.appendChild(box); document.body.appendChild(overlay);
+    setTimeout(function(){ ta.focus(); ta.select(); }, 100);
+}
+
+// ── UTILS ─────────────────────────────────────────────────
+function clearInput() {
+    document.getElementById('inputText').value = '';
+    logoCache = {};
+    try { localStorage.removeItem('bola_linetogel_logoCache'); } catch(e){}
+    resetUI();
+    showNotification('✓ Input berhasil dibersihkan!');
+}
+function showNotification(msg) {
+    var n = document.getElementById('notification');
+    n.textContent = msg; n.style.display = 'block';
+    setTimeout(function(){ n.style.display = 'none'; }, 3000);
+}
+
+// ══════════════════════════════════════════════════════════
+// ── v5 ADDITIONS ──────────────────────────────────────────
+// ══════════════════════════════════════════════════════════
+
+// ── LOCALSTORAGE PERSISTENCE (site, colors, logo cache) ────
+// Catatan: input prediksi SENGAJA tidak dipersist — refresh = halaman bersih.
+var LS_KEYS = {
+    site:         'bola_linetogel_currentSite',
+    colors:       'bola_linetogel_customColors',
+    logoCache:    'bola_linetogel_logoCache',
+    cacheVersion: 'bola_linetogel_logoCache_v'   // ★ v7.1: server-side cache version stamp
+};
+
+function lsGet(key, def) {
+    try { var v = localStorage.getItem(key); return v === null ? def : v; }
+    catch(e) { return def; }
+}
+function lsSet(key, val) {
+    try { localStorage.setItem(key, val); } catch(e){}
+}
+
+function persistLogoCache() {
+    try {
+        // Cap size — keep last 2000 entries to avoid quota issues
+        var keys = Object.keys(logoCache);
+        if (keys.length > 2000) {
+            var trimmed = {};
+            keys.slice(-2000).forEach(function(k){ trimmed[k] = logoCache[k]; });
+            logoCache = trimmed;
+        }
+        localStorage.setItem(LS_KEYS.logoCache, JSON.stringify(logoCache));
+    } catch(e){}
+}
+
+function restoreLogoCache() {
+    try {
+        var raw = localStorage.getItem(LS_KEYS.logoCache);
+        if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && typeof parsed === 'object') {
+                Object.keys(parsed).forEach(function(k){ logoCache[k] = parsed[k]; });
+            }
+        }
+    } catch(e){}
+}
+
+// ★ v7.1: Cek server cache_version saat page load.
+// Kalau berbeda dari yang tersimpan, berarti admin sudah update/save/delete
+// logo sejak kunjungan terakhir → wipe localStorage logoCache supaya entry
+// lama (null untuk tim yang baru di-add, atau URL lama untuk tim yang di-update)
+// di-refetch ulang dengan data baru.
+async function checkAndBustLogoCache() { /* disabled — no server */ }
+
+function persistSettings() {
+    lsSet(LS_KEYS.site, currentSite);
+    lsSet(LS_KEYS.colors, JSON.stringify(getColors()));
+}
+
+function restoreSettings() {
+    // Restore site selection dari localStorage
+    var savedSite = lsGet(LS_KEYS.site, null);
+    var targetSite = 'linetogel';
+
+    // Selalu apply cssVars + defaultColors untuk site yg aktif
+    // (mencegah warna lari saat pertama buka)
+    var cfg = SITES[targetSite];
+    var root = document.documentElement;
+    Object.keys(cfg.cssVars).forEach(function(k){ root.style.setProperty(k, cfg.cssVars[k]); });
+    document.body.style.background = 'linear-gradient(135deg,' + cfg.bgOverlay + '),url("' + cfg.bg + '")';
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    if (targetSite !== currentSite) {
+        currentSite = targetSite;
+        // Update UI badge + header tanpa trigger full switchSite
+        var bl = document.getElementById('badgeLogo'); if(bl) bl.src = cfg.logo;
+        var bn = document.getElementById('badgeName'); if(bn) bn.textContent = cfg.name;
+        var hl = document.getElementById('headerLogo'); if(hl) hl.src = cfg.logo;
+        var ht = document.getElementById('headerTitle'); if(ht) ht.textContent = cfg.name + ' GENERATOR';
+        var hs = document.getElementById('headerSub'); if(hs) hs.textContent = cfg.sub || '';
+        document.title = cfg.name + ' Generator';
+        var fav = document.getElementById('favicon'); if(fav) fav.href = cfg.favicon;
+        // Update body background
+        document.body.style.background = 'linear-gradient(135deg,' + cfg.bgOverlay + '),url("' + cfg.bg + '")';
+        document.body.style.backgroundSize = 'cover';
+        document.body.style.backgroundPosition = 'center';
+        document.body.style.backgroundAttachment = 'fixed';
+        // Update active drawer item
+        ['linetogel'].forEach(function(s){
+            var el = document.getElementById('opt-' + s);
+            if (el) el.classList.toggle('active', s === targetSite);
+        });
+    }
+
+    // Apply defaultColors untuk site ini (reset ke brand colors)
+    var d = cfg.defaultColors;
+    setColorValues(d.bg, d.txt, d.hd, d.mq);
+    updatePreviewColors();
+
+    // Restore custom color overrides HANYA kalau site-nya sama dengan yg tersimpan
+    // (Cegah warna site lama lari ke site baru)
+    var savedColors = lsGet(LS_KEYS.colors, null);
+    var savedSiteForColors = lsGet(LS_KEYS.site, null);
+    if (savedColors && savedSiteForColors === targetSite) {
+        try {
+            var sc = JSON.parse(savedColors);
+            if (sc && sc.bg && sc.txt && sc.hd && sc.mq) {
+                setColorValues(sc.bg, sc.txt, sc.hd, sc.mq);
+                updatePreviewColors();
+            }
+        } catch(e){}
+    }
+}
+
+// Wrap switchSite: persist + wipe color overrides saat ganti site
+var _origSwitchSite = switchSite;
+switchSite = function(site){
+    // Wipe saved colors dulu supaya site baru pakai defaultColors-nya sendiri
+    try { localStorage.removeItem(LS_KEYS.colors); } catch(e){}
+    _origSwitchSite(site);
+    persistSettings();
+};
+
+// Wrap setColorValues to persist colors after change
+(function(){
+    var _origSet = setColorValues;
+    setColorValues = function(bg, txt, hd, mq){
+        _origSet(bg, txt, hd, mq);
+        setTimeout(persistSettings, 50);
+    };
+})();
+
+// ── INIT ──────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function(){
+    // Apply cssVars dari currentSite SEBELUM apapun — cegah flash warna salah
+    (function(){
+        var cfg = SITES[currentSite];
+        var root = document.documentElement;
+        Object.keys(cfg.cssVars).forEach(function(k){ root.style.setProperty(k, cfg.cssVars[k]); });
+        var d = cfg.defaultColors;
+        var inputs = {
+            colorBackground: d.bg, colorBackgroundText: d.bg,
+            colorText: d.txt,      colorTextText: d.txt,
+            colorHeaderBg: d.hd,   colorHeaderBgText: d.hd,
+            colorMarqueeBg: d.mq,  colorMarqueeBgText: d.mq
+        };
+        Object.keys(inputs).forEach(function(id){
+            var el = document.getElementById(id); if(el) el.value = inputs[id];
+        });
+    })();
+    generateAutoDate();
+    initColorPickers();
+    restoreLogoCache();
+    restoreSettings();
+    updatePreviewColors();
+    checkAndBustLogoCache();
+
+    // ── Bind semua event via addEventListener (no inline onclick) ──
+    var _b = function(id, ev, fn){ var el = document.getElementById(id); if(el) el.addEventListener(ev, fn); };
+
+    _b('hamburgerBtn',    'click', toggleSiteMenu);
+    _b('currentSiteBadge','click', toggleSiteMenu);
+    _b('siteMenuOverlay', 'click', closeSiteMenu);
+    _b('drawerClose',     'click', closeSiteMenu);
+
+    // single site — no switcher needed });
+
+    _b('btnFetch',        'click', doFetch);
+    _b('autoRefToggle',   'change', toggleAutoRef);
+    _b('btnClear',        'click', clearInput);
+    _b('btnCopy',         'click', copyToClipboard);
+
+    _b('pvLeagueFilter',  'change', function(){ pvFilterLeague(this.value); });
+    _b('pvTeamSearch',    'input',  function(){ pvSearchTeam(this.value); });
+    _b('inputText',       'input',  function(){ clearTimeout(debounceTimer); debounceTimer = setTimeout(handleInput, 500); });
+
+    // ── Auto Fetch: tunggu logo DB load dulu ──
+    if (typeof loadLogoDb === 'function') {
+        loadLogoDb(function() {
+            startCountdown();
+            doFetch();
+        });
+    } else {
+        startCountdown();
+        doFetch();
+    }
+});
+</script>
+
+
+
+</body>
+</html>
